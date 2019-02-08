@@ -1,5 +1,7 @@
 <h1> APViz </h1>
 
+<em>Site Web :</em> <a href="https://aubed.github.io/APViz/index.html">https://aubed.github.io/APViz/index.html</a>
+
 <h2>Premiers tests</h2>
 Analyse des distances journalières par rapport à la météo :
 <div class='tableauPlaceholder' id='viz1548966633856' style='position: relative'><noscript><a href='https://public.tableau.com/views/Distanceenfonctiondujouretdelatemprature/Feuille1?:embed=y&:display_count=yes&publish=yes'><img alt='preview' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Di&#47;Distanceenfonctiondujouretdelatemprature&#47;Feuille1&#47;1_rss.png' style='border: none' /></a></noscript></div>
