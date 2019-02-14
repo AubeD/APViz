@@ -3,20 +3,40 @@
 <head>
   <title>Home - APViz</title>
   <meta charset="utf-8"/>
+  <link href="stylesheet.css" rel="stylesheet"/> <!--Feuille de style-->
+  <link href="https://fonts.googleapis.com/css?family=Hind" rel="stylesheet">
 </head>
 
 <body>
-  <h1> APViz </h1>
+  <div class="container-fluid">
 
-  <h2>Premiers tests</h2>
-  <p>Analyse des distances journalières par rapport à la météo :</p>
-  <div class='tableauPlaceholder' id='viz1548966633856' style='position: relative'><noscript><a href='https://public.tableau.com/views/Distanceenfonctiondujouretdelatemprature/Feuille1?:embed=y&:display_count=yes&publish=yes'><img alt='preview' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Di&#47;Distanceenfonctiondujouretdelatemprature&#47;Feuille1&#47;1_rss.png' style='border: none' /></a></noscript></div>
+    <!--Bannière-->
+    <div class="row header">
+      <header>
+        <h1 class="page_title">APViz</h1>
+        <h2 class="page_subtitle">Visualisation interactive de données d'activité physique</h2>
+      </header>
+    </div>
 
-  <p>Analyses temporelles des distances effectuées :</p>
-  <div class='tableauPlaceholder' id='viz1548966110536' style='position: relative'><noscript><a href=https://public.tableau.com/views/Classeur1_925/Tableaudebord1?:embed=y&:display_count=yes'><img alt='preview' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Cl&#47;Classeur1_925&#47;Tableaudebord1&#47;1_rss.png' style='border: none' /></a></noscript></div>
+    <!--Article-->
+    <div class="container-fluid articles">
+      <div class="part" id="intro">
+        <h3>Introduction</h3>
+        <p>Texte explicatif du projet (contexte, objectifs).</p>
+      </div>
 
-  <p>Carte des distances effectuées :</p>
+      <div class="part" id="part1">
+        <h3>1. Corrélation entre le lieu et l'activité</h3>
+        <div class="row">
+          <div class="graph col-sm-6"></div>
+          <div class="explanation col-sm-6"><p>Explications à propos du graphique</p></div>
+        </div>
+      </div>
+      <div class="part" id="part2">
 
-  <div class='tableauPlaceholder' id='viz1548967542846' style='position: relative'><noscript><a href='https://public.tableau.com/profile/caroline7492#!/vizhome/DistanceVille/Feuille2'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Di&#47;DistanceVille&#47;Feuille2&#47;1_rss.png' style='border: none' /></a></noscript></div>
+      </div>
+      <div class="part" id="part3"></div>
+    </div>
+</div>
 </body>
 </html>
