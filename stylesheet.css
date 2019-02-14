@@ -9,31 +9,45 @@
   font-family: 'Bubblegum';
   src: url('fonts/BubblegumSans-Regular.ttf');}
 
+.col-offset-1 {
+  margin-left: 8.33%}
+
+/* Blocs temporaires */
+    [class*="col-"], footer {
+    background-color: white;
+    border: 1px solid lightgrey;
+    border-radius: 6px;
+    line-height: 40px;
+    text-align: left;
+  }
+
 /* Corps */
 body {
-  margin: 0px; margin-top: -14px;padding: 0px;
-  font-family: Hint,Dosis-Regular,Arial,sans-serif;
+  margin: 0px -15px 0px -15px;
+  font-family: Dosis-Regular,Arial,sans-serif;
   font-size: 10px;
 }
 
 .header {
   /*Container*/
-  padding-top: 4em;
-  width: 100%; height:15em;
+  padding-top: 3em;
+  width:100%;
+  height:16em;
   background-color: darkred;
   /*Text*/
-  color: gainsboro;
+  color: white;
   text-align: center;
 }
 
 .page_title {
   font-family: Bubblegum;
-  font-size: 4em;
+  font-size: 4.5em;
   text-shadow: -2px -1px 3px #5D1E1E;
 }
 .page_subtitle {
   font-size: 2em;
   color: salmon;
+  text-shadow: -2px -1px 3px #5D1E1E;
 }
 
 .articles {
@@ -45,11 +59,27 @@ body {
   margin-top: 2em;
 }
 
-/* Blocs temporaires */
-    [class*="col-"], footer {
-    background-color: white;
-    /*border: 1px solid black;*/
-    /*border-radius: 6px;*/
-    line-height: 40px;
-    text-align: left;
-  }
+
+footer {
+  font-size: 0.8em;
+  margin-top: 4em; margin-right: 0.5em;padding-bottom: 0em;
+  text-align: right;
+}
+
+
+
+/*SVG parameters*/
+.line {
+      fill: none;
+      stroke-width: 1.5px;
+    }
+    .axis text {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
