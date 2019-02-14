@@ -1,6 +1,6 @@
 <h1> APViz </h1>
 
-<em>Site Web :</em> <a href="https://aubed.github.io/APViz/index.html">https://aubed.github.io/APViz/index.html</a>
+<em>Site Web :</em> <a href="http://aubed.github.io/APViz/index.html">http://aubed.github.io/APViz/index.html</a> ou <a href="https://aubed.github.io/APViz/index.html">https://aubed.github.io/APViz/index.html</a>
 
 <h2>Premiers tests</h2>
 Analyse des distances journalières par rapport à la météo :
