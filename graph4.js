@@ -19,14 +19,14 @@ var svg = d3.select("#graph4").append("svg")
     .range([0, imgWidth]);
 
   // Date format https://bl.ocks.org/zanarmstrong/ca0adb7e426c12c06a95
-  var parseTime  = d3.timeParse("%b %Y")
+  var parseTime  = d3.timeParse("%Y-%m-%d %H:%M:%S.000")
   
   var color = d3.scaleOrdinal(d3.schemeCategory20) 
 
   // Load stocks data
   // Ex: 0: {symbol: "MSFT", date: "Jan 2000", price: "39.81"}
-  d3.csv('https://raw.githubusercontent.com/LyonDataViz/MOS5.5-Dataviz/master/data/stocks.csv', function(error, raw) {
-    
+  d3.csv('https://raw.githubusercontent.com/AubeD/APViz/master/exercise.csv', function(error, raw) {
+    //console.log(raw)
     var symbols = [];
     
     var data = []
@@ -34,18 +34,15 @@ var svg = d3.select("#graph4").append("svg")
     // Data pre-processing
     raw.forEach(function(d, i) {
       
-      if(symbols.indexOf(d.symbol) < 0) {
-        symbols.push(d.symbol)
-        data[symbols.indexOf(d.symbol)] = [];
-      }
-      
       // String to INT
-      d.value = +d.price;     
+      d.value = +d.distance;     
  
       // Parsing time
-      d.date = parseTime(d.date)
-      data[symbols.indexOf(d.symbol)].push(d);
+      //console.log(d.start_time);
+      d.date = parseTime(d.start_time);
+      //console.log(d.value);
     });
+    data = raw;
     
     // Calculated on the flat dataset
     t.domain(d3.extent(raw, function(d) {
@@ -55,6 +52,13 @@ var svg = d3.select("#graph4").append("svg")
     y.domain([0, d3.max(raw, function(d) {
       return d.value;
     })])
+
+    function sortByDateAscending(a, b) {
+        // Dates will be cast to numbers automagically:
+        return a.date - b.date;
+    }
+
+    data = data.sort(sortByDateAscending);
     
     // We update the x-scale using the Temporal scale t
     var xAxis = d3.axisBottom()
@@ -66,13 +70,17 @@ var svg = d3.select("#graph4").append("svg")
     // Line generator
     var line = d3.line()//.curve(d3.curveCardinal)
       .x(function(d) { return t(d.date); }) // Update X mapping
-      .y(function(d) { return y(d.price); }) // Update Y mapping
+      .y(function(d) { return y(d.value); }) // Update Y mapping
 
-    svg.selectAll(".line").data(data).enter()
+      console.log(raw[2]);
+
+    svg.selectAll(".line").data([data]).enter()
       .append("path")
       .attr("class", "line")
-      .attr("d", function(d) { return line(d); })  
-      .attr("stroke", function(d, i) { return color(i); })
+      .attr("d", function(d) { 
+        //console.log(line(d)); 
+        return line(d); })  
+      .attr("stroke", color(1))
       .attr("fill", "none");
     
     svg.append('g')
