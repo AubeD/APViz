@@ -13,17 +13,18 @@ var svg3 = d3.select("#graph3").append("svg")
   .attr("transform", "translate(" + margin3.left + "," + margin3.top + ")");
 
 //-- Parsers --//
-var parseDate3 = d3.timeParse("%Y-%m-%d %H:%M:%S.%L"),
-    parseDateBis3 = d3.timeParse("%e-%_m-%Y"),
-    parseTime3 = d3.timeParse("%H:%M"),
-    parseTimeOffset3 = d3.timeParse("UTC+%Z")
-    displayDate3 = d3.timeFormat("%b %y"),
+var displayDate3 = d3.timeFormat("%b %y"),
     displayTime3 = d3.timeFormat("%H:%M"),
     displayValue3 = d3.format(",.0f");
 
+//--Crunching "exercise.csv"--//
 d3.csv("exercise.csv", function(error, data) {
   if (error) throw error;
-
+  //--Specific parsers for this dataset--//
+  var parseDate3 = d3.timeParse("%Y-%m-%d %H:%M:%S.%L"),
+      parseDateBis3 = d3.timeParse("%e-%_m-%Y"),
+      parseTime3 = d3.timeParse("%H:%M"),
+      parseTimeOffset3 = d3.timeParse("UTC+%Z");
   //-- Managing data --//
   data.forEach( function(d){
     d["end_time"] = parseDate3(d["end_time"])
@@ -38,7 +39,6 @@ d3.csv("exercise.csv", function(error, data) {
     d["update_time"] = parseDate3(d["update_time"])
     d["time_offset"] = (d["time_offset"]);
   })
-
   var nested_data = d3
     .nest()
     .key( function(d){
@@ -46,13 +46,11 @@ d3.csv("exercise.csv", function(error, data) {
     .entries(data)
 
   //-- Scales and axis --//
-
   //Dates max and min to define the scales' domains
   var min_date = d3
     .min(nested_data.map( function(d){return parseDateBis3(d.key)})),
       max_date = d3
     .max(nested_data.map( function(d){return parseDateBis3(d.key)}));
-console.log(min_date,max_date)
   // Scales definition
   var xScale = d3
     .scaleTime()
@@ -81,10 +79,9 @@ console.log(min_date,max_date)
     .selectAll("g")
     .data(nested_data)
     .enter()
-
+  // creation of each activity bar
   nested_data.forEach(function(dates){
     dates["values"].map(function(exercise) {
-
       var start_time = parseTime3( exercise
                                  .start_time.getHours() + ":" + exercise
                                  .start_time.getMinutes()),
@@ -103,7 +100,17 @@ console.log(min_date,max_date)
           return yScale(start_time); })
         .attr("height", function(d) {
           return yScale(end_time)-yScale(start_time); });
-      })
-    })
+      })//end of exercise loop (dates["values"]...)
+    })// end of nested_data.forEach
+}) //end of "exercise.csv" crunching
 
-})
+//--Crunching "EDT.csv"--//
+d3.csv("EDT.csv", function(error, data){
+  if (error) throw error;
+  console.log(data);
+  //--Specific parsers for this dataset--//
+  var parseDate3 = d3.timeParse("%Y-%m-%d %H:%M:%S.%L"),
+      parseTime3 = d3.timeParse("%H:%M");
+  //-- Managing data --//
+
+})//end of EDT loop
