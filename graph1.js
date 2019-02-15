@@ -3,15 +3,12 @@ var width1 = 960,
     cellSize1 = 17; 
 
 var format1 = d3.timeFormat("%Y-%m-%d");
-var tooltip1 = d3.select("#calendrier").append('div')
-            .attr('class', 'hidden tooltip');
-
 
 var color1 = d3.scaleLinear().domain([100,7000])
     .interpolate(d3.interpolateHcl)
   .range([d3.rgb("#E0FFFF"), d3.rgb('#000080')]);
 
-var svg1 = d3.select("#calendrier").selectAll("svg")
+var svg1 = d3.select("#graph1").selectAll("svg")
     .data(d3.range(2018, 2020)) 
   .enter().append("svg")
     .attr("width", width1)
@@ -70,6 +67,8 @@ var rect1 = svg1.selectAll(".day")
     .attr("x", function(d) { return d3.timeWeek.count(d3.timeYear(d),d) * cellSize1; })
     .attr("y", function(d) { return d.getDay() * cellSize1; })
     .datum(format1);
+rect1.append("title")
+    .text(function(d) { return d; });
 
 
 svg1.selectAll(".month")
@@ -101,6 +100,12 @@ d3.csv("exercises.csv", function(error, csv) {
         })
 
 });
+
+d3.select("input[value=\"toutes\"]").on("click", force_layout);
+d3.select("input[value=\"grenoble\"]").on("click", random_layout);
+d3.select("input[value=\"londres\"]").on("click", line_layout);
+d3.select("input[value=\"lyon\"]").on("click", line_cat_layout);
+d3.select("input[value=\"rennes\"]").on("click", radial_layout);
 
 function monthPath(t0) {
   var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
