@@ -6,7 +6,7 @@ var margin = {top: 20, right: 20, bottom: 20, left: 35},
 var imgHeight = height*0.85, imgWidth = width*0.8
 
 //-- Create the SVG --//
-var svg = d3.select("#graph3").append("svg")
+var svg3 = d3.select("#graph3").append("svg")
   .attr("width", width)
   .attr("height", height)
   .append("g")
@@ -70,17 +70,17 @@ d3.csv("exercise.csv", function(error, data) {
   var xAxis = d3.axisBottom().scale(xScale).tickFormat(displayDate),
       yAxis = d3.axisLeft().scale(yScale).tickFormat(displayTime);
   // Axis creation on the SVG
-  svg.append("g")
+  svg3.append("g")
   .attr("transform", "translate("+ 0 + "," + imgHeight +")")
   .attr("class", "x axis")
   .call(xAxis);
-  svg.append("g")
+  svg3.append("g")
   .attr("transform", "translate("+ 0 + "," + 0 +")")
   .attr("class", "y axis")
   .call(yAxis);
 
   //-- Drawing the bar chart --//
-  svg.append("g")
+  svg3.append("g")
     .selectAll("g")
     .data(nested_data)
     .enter()
@@ -95,7 +95,7 @@ d3.csv("exercise.csv", function(error, data) {
                                .end_time.getHours() + ":" + exercise
                                .end_time.getMinutes())
 
-      svg.append("g").selectAll(".bar")
+      svg3.append("g").selectAll(".bar")
         .data(exercise)
         .enter().append("rect")
         .attr("class", "bar")
