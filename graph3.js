@@ -1,41 +1,41 @@
 //-- Margin setup --//
-var margin = {top: 20, right: 20, bottom: 20, left: 35},
-    width = 500 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+var margin3 = {top: 20, right: 20, bottom: 20, left: 35},
+    width3 = 700 - margin3.left - margin3.right,
+    height3 = 400 - margin3.top - margin3.bottom;
 
-var imgHeight = height*0.85, imgWidth = width*0.8
+var imgHeight3 = height3*0.85, imgWidth3 = width3*0.8
 
 //-- Create the SVG --//
 var svg3 = d3.select("#graph3").append("svg")
-  .attr("width", width)
-  .attr("height", height)
+  .attr("width", width3)
+  .attr("height", height3)
   .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  .attr("transform", "translate(" + margin3.left + "," + margin3.top + ")");
 
 //-- Parsers --//
-var parseDate = d3.utcParse("%Y-%m-%d %H:%M:%S.%L"),
-    parseDateBis = d3.timeParse("%e-%_m-%Y"),
-    parseTime = d3.timeParse("%H:%M"),
-    parseTimeOffset = d3.timeParse("UTC+%Z")
-    displayDate = d3.timeFormat("%b %y"),
-    displayTime = d3.timeFormat("%H:%M"),
-    displayValue = d3.format(",.0f");
+var parseDate3 = d3.timeParse("%Y-%m-%d %H:%M:%S.%L"),
+    parseDateBis3 = d3.timeParse("%e-%_m-%Y"),
+    parseTime3 = d3.timeParse("%H:%M"),
+    parseTimeOffset3 = d3.timeParse("UTC+%Z")
+    displayDate3 = d3.timeFormat("%b %y"),
+    displayTime3 = d3.timeFormat("%H:%M"),
+    displayValue3 = d3.format(",.0f");
 
 d3.csv("exercise.csv", function(error, data) {
   if (error) throw error;
 
   //-- Managing data --//
   data.forEach( function(d){
-    d["end_time"] = parseDate(d["end_time"])
-    d["start_time"] = parseDate(d["start_time"])
+    d["end_time"] = parseDate3(d["end_time"])
+    d["start_time"] = parseDate3(d["start_time"])
     d["duration"] = +d["duration"]/1000
     d["exercise_type"] = +d["exercise_type"]
     d["calorie"] = +d["calorie"]
     d["distance"] = +d["distance"]
     d["max_speed"] = +d["max_speed"]
     d["mean_speed"] = +d["mean_speed"]
-    d["create_time"] = parseDate(d["create_time"])
-    d["update_time"] = parseDate(d["update_time"])
+    d["create_time"] = parseDate3(d["create_time"])
+    d["update_time"] = parseDate3(d["update_time"])
     d["time_offset"] = (d["time_offset"]);
   })
 
@@ -49,29 +49,26 @@ d3.csv("exercise.csv", function(error, data) {
 
   //Dates max and min to define the scales' domains
   var min_date = d3
-    .min(nested_data.map( function(d){return parseDateBis(d.key)})),
+    .min(nested_data.map( function(d){return parseDateBis3(d.key)})),
       max_date = d3
-    .max(nested_data.map( function(d){return parseDateBis(d.key)}));
+    .max(nested_data.map( function(d){return parseDateBis3(d.key)}));
+console.log(min_date,max_date)
   // Scales definition
   var xScale = d3
-    .scaleBand()
-    .range([0, imgWidth])
+    .scaleTime()
+    .range([0, imgWidth3])
     .domain([min_date, max_date]),
     yScale = d3
     .scaleTime()
-    .range([0,imgHeight])
-    .domain([ parseTime("00:00"), parseTime("23:59") ]),
-    xBandWidth = d3
-    .scaleBand()
-    .domain(xScale)
-    .range([0, 6]),
+    .range([0,imgHeight3])
+    .domain([ parseTime3("03:00"), parseTime3("23:59") ]),
     colorScale = d3.scaleOrdinal(d3.schemeCategory10);
   // Axis definition
-  var xAxis = d3.axisBottom().scale(xScale).tickFormat(displayDate),
-      yAxis = d3.axisLeft().scale(yScale).tickFormat(displayTime);
+  var xAxis = d3.axisBottom().scale(xScale).tickFormat(displayDate3),
+      yAxis = d3.axisLeft().scale(yScale).tickFormat(displayTime3);
   // Axis creation on the SVG
   svg3.append("g")
-  .attr("transform", "translate("+ 0 + "," + imgHeight +")")
+  .attr("transform", "translate("+ 0 + "," + imgHeight3 +")")
   .attr("class", "x axis")
   .call(xAxis);
   svg3.append("g")
@@ -88,24 +85,24 @@ d3.csv("exercise.csv", function(error, data) {
   nested_data.forEach(function(dates){
     dates["values"].map(function(exercise) {
 
-      var start_time = parseTime( exercise
+      var start_time = parseTime3( exercise
                                  .start_time.getHours() + ":" + exercise
                                  .start_time.getMinutes()),
-          end_time = parseTime( exercise
+          end_time = parseTime3( exercise
                                .end_time.getHours() + ":" + exercise
                                .end_time.getMinutes())
 
       svg3.append("g").selectAll(".bar")
-        .data(exercise)
+        .data([exercise])
         .enter().append("rect")
         .attr("class", "bar")
         .attr("x", function(d) {
-          return xScale(parseDateBis(dates.key)); })
-        .attr("width", 3)
-        .attr("y0", function(d) {
+          return xScale(parseDateBis3(dates.key))})
+        .attr("width", 1.5)
+        .attr("y", function(d) {
           return yScale(start_time); })
-        .attr("y1", function(d) {
-          return yScale(end_time); });
+        .attr("height", function(d) {
+          return yScale(end_time)-yScale(start_time); });
       })
     })
 
