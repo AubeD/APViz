@@ -96,9 +96,10 @@ var svg2 = d3.select("#graph2").append("svg")
     raw2 = raw2.sort(sortByDateAscending);
     
     // We update the x-scale using the Temporal scale t
+    var displayDate2 = d3.timeFormat("%b %y")
     var xAxis = d3.axisBottom()
       .scale(t2)
-      .tickFormat(displayDate);
+      .tickFormat(displayDate2);
     var yAxis = d3.axisLeft()
       .scale(y2);
     var yAxis_temp = d3.axisLeft()
@@ -126,6 +127,8 @@ var svg2 = d3.select("#graph2").append("svg")
       .attr("stroke", color(1))
       .attr("fill", "none");
 
+      //Line pour température
+
       /*svg2.selectAll(".line_temp").data([meteo_lyon]).enter()
       .append("path")
       .attr("class", "line_temp")
@@ -134,6 +137,9 @@ var svg2 = d3.select("#graph2").append("svg")
         return line_temp(d); })  
       .attr("stroke", color(0))
       .attr("fill", "none");*/
+
+
+      // Nuage de point pour température
 
       svg2.selectAll(".circle").data(meteo_lyon).enter()
       .append("circle")
