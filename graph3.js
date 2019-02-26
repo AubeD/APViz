@@ -109,14 +109,24 @@ d3.csv("EDT.csv", function(error, data){
   if (error) throw error;
 
   //--Specific parsers for this dataset--//
-  var parseDate3 = d3.timeParse("%d/%m/%Y %H:%M %p"),
+  var parseDate3 = d3.timeParse("%d/%m/%Y %I:%M %p"),
+      parseDateBis3 = d3.timeParse("%_d/%_m/%Y")
       parseTime3 = d3.timeParse("%H:%M");
   //-- Managing data --//
   data.forEach(function(d){
     d["course"] = d["title"];
-    var day = parseDate3(d["start"]).getDate(),
-        month = parseDate3(d["start"]).getMonth(),
-        year = parseDate3(d["start"]).getFullYear();
-  }) //end of data parsing
+    console.log(d["start"], parseDate3(d["start"]));
+    // if (parseDate3(d["start"]).getFullYear() == "2021") {
+    //     console.log(d["start"], parseDate3(d["start"]));
+    // }
+    // if (parseDate3(d["start"]).getFullYear() == "2020") {
+    //     console.log(d["start"], parseDate3(d["start"]));
+    // }
 
+    var day = parseDate3(d["start"]).getDate().toString(),
+        month = parseDate3(d["start"]).getMonth().toString(),
+        year = parseDate3(d["start"]).getFullYear().toString(),
+        date = parseDateBis3(day + "/" + month + "/" + year);
+
+  }) //end of data parsing
 })//end of EDT loop
