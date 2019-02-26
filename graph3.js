@@ -107,14 +107,16 @@ d3.csv("exercise.csv", function(error, data) {
 //--Crunching "EDT.csv"--//
 d3.csv("EDT.csv", function(error, data){
   if (error) throw error;
-  console.log(data);
+
   //--Specific parsers for this dataset--//
   var parseDate3 = d3.timeParse("%d/%m/%Y %H:%M %p"),
       parseTime3 = d3.timeParse("%H:%M");
   //-- Managing data --//
-/*  data.forEach(function(d){
+  data.forEach(function(d){
     d["course"] = d["title"];
-    d["date"] = parseDate3(d["start"])
-  })*/ //end of data parsing
-//console.log(data)
+    var day = parseDate3(d["start"]).getDate(),
+        month = parseDate3(d["start"]).getMonth(),
+        year = parseDate3(d["start"]).getFullYear();
+  }) //end of data parsing
+
 })//end of EDT loop
