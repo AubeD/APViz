@@ -99,34 +99,68 @@ d3.csv("exercise.csv", function(error, data) {
         .attr("y", function(d) {
           return yScale(start_time); })
         .attr("height", function(d) {
-          return yScale(end_time)-yScale(start_time); });
+          return yScale(end_time)-yScale(start_time); })
+        .style("fill", "blue");
       })//end of exercise loop (dates["values"]...)
     })// end of nested_data.forEach
+
+    //--Crunching "EDT.csv"--//
+    d3.csv("EDT.csv", function(error, data){
+      if (error) throw error;
+
+      //--Specific parsers for this dataset--//
+      var parseDate32 = d3.timeParse("%m/%d/%Y %H:%M"),
+          parseDateBis32 = d3.timeParse("%_d/%_m/%Y")
+          parseTime32 = d3.timeParse("%H:%M");
+      //-- Managing data --//
+      data.forEach(function(d){
+        var day = parseDate32(d["start"]).getDate().toString(),
+            month = (parseDate32(d["start"]).getMonth()+1).toString(),
+            year = parseDate32(d["start"]).getFullYear().toString(),
+            hour = parseDate32(d["start"]).getHours().toString(),
+            minutes = parseDate32(d["start"]).getMinutes().toString(),
+            date = parseDateBis32(day + "/" + month + "/" + year),
+            start_time = parseTime32(hour + ":" + minutes);
+        var hour = parseDate32(d["end"]).getHours().toString(),
+            minutes = parseDate32(d["end"]).getMinutes().toString(),
+            end_time = parseTime32(hour + ":" + minutes);
+        d["title"] = d["title"];
+        d["start"] = start_time;
+        d["end"] = end_time;
+        d["date"] = date;
+      }) //end of data parsing
+
+      //-- Drawing the bar chart --//
+      svg3.append("g")
+        .selectAll("g")
+        .data(data)
+        .enter()
+      data.forEach(function(cours) {
+        svg3.append("g").selectAll(".bar")
+          .data([cours])
+          .enter().append("rect")
+          .attr("class", "bar")
+          .attr("x", function(d) {
+            console.log(d["title"].includes("Examen") || d["title"].includes("Restitution") );
+            if (d["date"].getTime() <= max_date.getTime()) {
+              return xScale(d["date"]);}
+            })
+          .attr("width", 1.5)
+          .attr("y", function(d) {
+            if (d["date"].getTime() <= max_date.getTime()) {
+              return yScale(d["start"]);}
+             })
+          .attr("height", function(d) {
+            if (d["date"].getTime() <= max_date.getTime()) {
+              return yScale(d["end"])-yScale(d["start"]);}
+            })
+          .style("fill", function(d) {
+            if (d["title"].includes("Examen") || d["title"].includes("Restitution")) {
+              return "orangered";
+            } else {
+              return "green";
+            }
+          });
+      })
+    })//end of EDT loop
 }) //end of "exercise.csv" crunching
-
-//--Crunching "EDT.csv"--//
-d3.csv("EDT.csv", function(error, data){
-  if (error) throw error;
-
-  //--Specific parsers for this dataset--//
-  var parseDate3 = d3.timeParse("%d/%m/%Y %I:%M %p"),
-      parseDateBis3 = d3.timeParse("%_d/%_m/%Y")
-      parseTime3 = d3.timeParse("%H:%M");
-  //-- Managing data --//
-  data.forEach(function(d){
-    d["course"] = d["title"];
-    console.log(d["start"], parseDate3(d["start"]));
-    // if (parseDate3(d["start"]).getFullYear() == "2021") {
-    //     console.log(d["start"], parseDate3(d["start"]));
-    // }
-    // if (parseDate3(d["start"]).getFullYear() == "2020") {
-    //     console.log(d["start"], parseDate3(d["start"]));
-    // }
-
-    var day = parseDate3(d["start"]).getDate().toString(),
-        month = parseDate3(d["start"]).getMonth().toString(),
-        year = parseDate3(d["start"]).getFullYear().toString(),
-        date = parseDateBis3(day + "/" + month + "/" + year);
-
-  }) //end of data parsing
-})//end of EDT loop
