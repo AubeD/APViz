@@ -41,11 +41,22 @@
       </div>
 
       <div class="part" id="part2">
-        <h3>2. Distribution annuelle et influence de la météo</h3>
+        <h3>2. Distribution annuelle et influence de la météo </h3>
         <div class="row">
+
+		  <form>
+  Sélectionnez la ville:
+    <label><input type="radio" name="layout" value="toutes" checked> Toutes les villes </label>
+    <label><input type="radio" name="layout" value="grenoble" > Grenoble </label>
+    <label><input type="radio" name="layout" value="londres"> Londres </label>  
+    <label><input type="radio" name="layout" value="lyon"> Lyon </label>
+    <label><input type="radio" name="layout" value="rennes"> Rennes </label>
+  </form>
+          <div id="graph1" class="col-offset-1 col-xs-10 col-offset-1 graph"></div>
+
           <div class="col-xs-12 graph"><p>[calendrier annuel]</p></div>
-          <div id="graph4" class="col-offset-1 col-xs-10 col-offset-1 graph"></div>
-          <div class="col-xs-6 explanation"><p>[graphique des distances par jour]</p></div>
+          <div id="graph2" class="col-xs-6 explanation graph"><p>[graphique des distances par jour]</p></div>
+
           <div class="col-xs-6 explanation"><p>Explications sur les deux graphiques</p></div>
         </div>
       </div>
@@ -72,5 +83,6 @@
 
 <!--SCRIPTS-->
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="graph2.js"></script>
 <script src="graph3.js"></script>
-<script src="graph4.js"></script>
+<script src="graph1.js"></script>
