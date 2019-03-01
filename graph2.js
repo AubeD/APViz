@@ -49,27 +49,50 @@ var svg2 = d3.select("#graph2").append("svg")
     });
 
     d3.csv('https://raw.githubusercontent.com/AubeD/APViz/master/weather-lyon.csv', function(error, meteo_lyon) {
-    console.log(meteo_lyon);
+    
     // Data pre-processing
-      meteo_lyon.forEach(function(d, i) {
-        
-        // String to INT
+    meteo_lyon.forEach(function(d, i) {
+      
+      // String to INT
 
-        d.temp = +d.Temperature-272.15;     
-   
-        // Parsing time
-        
-        d.date = new Date(d.Date);
-        if(d.temp<-10){
-        console.log(d.temp);
-        }
-        //console.log(d.date);
-        if(d.Temperature==0){
-          meteo_lyon.splice(meteo_lyon.indexOf(d), 1);
-        }
-      });
+      d.temp = +d.Temperature-272.15;     
+ 
+      // Parsing time
+      
+      d.date = new Date(d.Date);
+      if(d.temp<-10){
+      console.log(d.temp);
+      }
+      //console.log(d.date);
+      if(d.Temperature==0){
+        meteo_lyon.splice(meteo_lyon.indexOf(d), 1);
+      }
 
 
+    });
+
+    meteo_lyon.forEach(function(d, i){
+      if (!d.date){
+        delete d;
+      }
+    });
+    console.log(meteo_lyon);
+    var meteo_lyon = d3.nest()
+    .key(function(d) {
+
+      if(d.date){
+        var day = new Date();
+        day.setFullYear(d.date.getFullYear());
+        day.setMonth(d.date.getMonth());
+        day.setDate(d.date.getDate());
+        return day;
+
+      }
+     })
+    .rollup(function(v) { return d3.mean(v, function(d) { return d.temp; }); })
+    .entries(meteo_lyon);
+    
+    
     
     // Calculated on the flat dataset
     var date_min = d3.min(raw2, function(d) {return d.date;});
@@ -89,7 +112,9 @@ var svg2 = d3.select("#graph2").append("svg")
         return a.date - b.date;
     }
 
-    meteo_lyon = meteo_lyon.sort(sortByDateAscending);
+    //meteo_lyon = meteo_lyon.sort(function(a,b){return a.key-b.key;});
+
+    console.log(meteo_lyon);
 
     //console.log(meteo_lyon);
 
@@ -141,19 +166,19 @@ var svg2 = d3.select("#graph2").append("svg")
 
       // Nuage de point pour température
 
-      svg2.selectAll(".circle").data(meteo_lyon).enter()
+      svg2.selectAll(".circle").data([meteo_lyon]).enter()
       .append("circle")
       .attr("class", "circle")
       .attr("r", 1)
       .attr("cx", function(d) { 
         
         //console.log(d.date); 
-        return t2(d.date); })  
+        return t2(d.key); })  
       .attr("cy", function(d) { 
         //console.log(d.date); 
         return y_temp(d.temp); })
       .attr("stroke", function(d){
-        if (d.date<date_min){
+        if (d.key<date_min){
           return "none";
         }
         return color(0);
@@ -175,6 +200,13 @@ var svg2 = d3.select("#graph2").append("svg")
       .attr('transform', 'translate('+imgWidth2+',' + 0 + ')')
       .attr('class', 'y axis')
       .call(yAxis_temp);
+
+
+    d3.select("input[value=\"toutes\"]").on("click", force_layout);
+    d3.select("input[value=\"grenoble\"]").on("click", random_layout);
+    d3.select("input[value=\"londres\"]").on("click", line_layout);
+    d3.select("input[value=\"lyon\"]").on("click", line_cat_layout);
+    d3.select("input[value=\"rennes\"]").on("click", radial_layout);
 
   });
 
