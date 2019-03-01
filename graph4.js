@@ -72,7 +72,7 @@ var svg = d3.select("#graph4").append("svg")
       .x(function(d) { return t(d.date); }) // Update X mapping
       .y(function(d) { return y(d.value); }) // Update Y mapping
 
-      //console.log(raw[2]);
+      console.log(raw[2]);
 
     svg.selectAll(".line").data([data]).enter()
       .append("path")
