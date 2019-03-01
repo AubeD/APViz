@@ -5,6 +5,11 @@ var margin3 = {top: 20, right: 20, bottom: 20, left: 35},
 
 var imgHeight3 = height3*0.85, imgWidth3 = width3*0.8
 
+//-- Create the tooltip --//
+var div = d3.select("#graph3").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
 //-- Create the SVG --//
 var svg3 = d3.select("#graph3").append("svg")
   .attr("width", width3)
@@ -100,7 +105,31 @@ d3.csv("exercise.csv", function(error, data) {
           return yScale(start_time); })
         .attr("height", function(d) {
           return yScale(end_time)-yScale(start_time); })
-        .style("fill", "blue");
+        .style("fill", "blue")
+        .on("mouseover", function(d) {
+
+          d3.select(this)
+            .transition().duration(200)
+      			.style("opacity", 1.0)
+            .style("fill", "deepskyblue");
+
+          div.transition()
+             .duration(200)
+             .style("opacity", .9);
+          div.html(displayTime3(start_time) + " - " + displayTime3(end_time) + "<br/>" + Math.round(exercise.distance/1000 * 100)/100 + " km")
+             .style("top", (yScale(start_time) - 18).toString() + "px")
+             .style("left", (xScale(parseDateBis3(dates.key))+10).toString() + "px")
+           })
+        .on("mouseout", function(d) {
+
+          d3.select(this)
+            .transition().duration(400)
+            .style("fill", "blue")
+      			.style("opacity", 1.0);
+
+          div.transition()
+             .duration(400)
+             .style("opacity", 0); });
       })//end of exercise loop (dates["values"]...)
     })// end of nested_data.forEach
 
@@ -141,7 +170,7 @@ d3.csv("exercise.csv", function(error, data) {
           .enter().append("rect")
           .attr("class", "bar")
           .attr("x", function(d) {
-            console.log(d["title"].includes("Examen") || d["title"].includes("Restitution") );
+            //console.log(d["title"].includes("Examen") || d["title"].includes("Restitution") );
             if (d["date"].getTime() <= max_date.getTime()) {
               return xScale(d["date"]);}
             })
@@ -158,9 +187,40 @@ d3.csv("exercise.csv", function(error, data) {
             if (d["title"].includes("Examen") || d["title"].includes("Restitution")) {
               return "orangered";
             } else {
-              return "green";
-            }
-          });
+              return "yellowgreen";
+            }})
+          .on("mouseover", function(d) {
+
+              d3.select(this)
+                .transition().duration(200);
+              if (d["title"].includes("Examen") || d["title"].includes("Restitution")) {
+                  d3.select(this).style("fill", "firebrick"); }
+              else { d3.select(this).style("fill", "olivedrab"); }
+
+              div.transition()
+                 .duration(200)
+                 .style("opacity", .9);
+              if (d["title"].includes("Examen") || d["title"].includes("Restitution")) {
+                div.html("Examen<br/>" + displayTime3(d.start) + " - " + displayTime3(d.end))
+                   .style("top", (yScale(d["start"]) - 18).toString() + "px")
+                   .style("left", (xScale(d["date"])+10).toString() + "px") }
+              else {
+                div.html("Cours<br/>" + displayTime3(d.start) + " - " + displayTime3(d.end))
+                 .style("top", (yScale(d["start"]) - 18).toString() + "px")
+                 .style("left", (xScale(d["date"])+10).toString() + "px") }
+               })
+          .on("mouseout", function(d) {
+
+              d3.select(this)
+                .transition().duration(400);
+              if (d["title"].includes("Examen") || d["title"].includes("Restitution")) {
+                  d3.select(this).style("fill", "orangered"); }
+              else { d3.select(this).style("fill", "yellowgreen"); }
+
+              div.transition()
+                 .duration(400)
+                 .style("opacity", 0); });
+
       })
     })//end of EDT loop
 }) //end of "exercise.csv" crunching
