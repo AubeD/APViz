@@ -2,13 +2,12 @@
 var margin3 = {top: 20, right: 20, bottom: 20, left: 35},
     width3 = 700 - margin3.left - margin3.right,
     height3 = 400 - margin3.top - margin3.bottom;
-
 var imgHeight3 = height3*0.85, imgWidth3 = width3*0.8
 
-//-- Create the tooltip --//
-var div = d3.select("#graph3").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+var margin4 = {top: 20, right: 20, bottom: 20, left: 35},
+    width4 = 500 - margin4.left - margin4.right,
+    height4 = 400 - margin4.top - margin4.bottom;
+var imgHeight4 = height4*0.85, imgWidth4 = width4*0.8
 
 //-- Create the SVG --//
 var svg3 = d3.select("#graph3").append("svg")
@@ -16,6 +15,22 @@ var svg3 = d3.select("#graph3").append("svg")
   .attr("height", height3)
   .append("g")
   .attr("transform", "translate(" + margin3.left + "," + margin3.top + ")");
+
+var svg4 = d3.select("#graph4").append("svg")
+  .attr("width", width4)
+  .attr("height", height4)
+  .append("g")
+  .attr("transform", "translate(" + margin4.left + "," + margin4.top + ")");
+
+
+//============================================================================//
+// graph3
+//============================================================================//
+
+//-- Create the tooltip --//
+var div = d3.select("#graph3").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
 //-- Parsers --//
 var displayDate3 = d3.timeFormat("%b %y"),

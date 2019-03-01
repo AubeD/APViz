@@ -33,40 +33,32 @@
       </div>
 
       <div class="part" id="part1">
-        <h3>1. Corrélation entre le lieu et l'activité</h3>
+        <div>
+          <h3>1. Distribution annuelle et influence de la météo </h3>
+          <p>Sélectionnez la ville :</p>
+        </div>
+        <div>
+          <form>
+              <label><input type="radio" name="layout" value="toutes" checked>&nbsp;&nbsp;Toutes les villes&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <label><input type="radio" name="layout" value="grenoble">&nbsp;&nbsp;Grenoble&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <label><input type="radio" name="layout" value="londres">&nbsp;&nbsp;Londres&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <label><input type="radio" name="layout" value="lyon">&nbsp;&nbsp;Lyon&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <label><input type="radio" name="layout" value="rennes">&nbsp;&nbsp;Rennes&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </form>
+        </div>
         <div class="row">
-          <div class="col-xs-6 graph"><p>[carte]</p></div>
-          <div class="col-xs-6 explanation"><p>Explications à propos du graphique</p></div>
+          <div id="graph1" class="col-offset-1 col-xs-10 col-offset-1"></div>
+          <div class="col-xs-6"><p>Explications sur les deux graphiques</p></div>
+          <div id="graph2" class="col-xs-6"></div>
         </div>
       </div>
 
       <div class="part" id="part2">
-        <h3>2. Distribution annuelle et influence de la météo </h3>
+        <h3>2. Plages horaires hebdomadaire</h3>
         <div class="row">
-
-		  <form>
-  Sélectionnez la ville:
-    <label><input type="radio" name="layout" value="toutes" checked> Toutes les villes </label>
-    <label><input type="radio" name="layout" value="grenoble" > Grenoble </label>
-    <label><input type="radio" name="layout" value="londres"> Londres </label>  
-    <label><input type="radio" name="layout" value="lyon"> Lyon </label>
-    <label><input type="radio" name="layout" value="rennes"> Rennes </label>
-  </form>
-          <div id="graph1" class="col-offset-1 col-xs-10 col-offset-1 graph"></div>
-
-          <div class="col-xs-12 graph"><p>[calendrier annuel]</p></div>
-          <div id="graph2" class="col-xs-6 explanation graph"><p>[graphique des distances par jour]</p></div>
-
-          <div class="col-xs-6 explanation"><p>Explications sur les deux graphiques</p></div>
-        </div>
-      </div>
-
-      <div class="part" id="part3">
-        <h3>3. Plages horaires hebdomadaire</h3>
-        <div class="row">
-          <div id="graph3" class="col-offset-1 col-xs-10 col-offset-1 graph"></div>
-          <div class="col-offset-1 col-xs-10 col-offset-1 graph"><p>[graphique de zoom sur l'activité]</p></div>
-          <div class="col-xs-12 explanation"><p>Explications à propos du graphique</p></div>
+          <div id="graph3" class="col-xs-6"></div>
+          <div id="graph4" class="col-offset-1 col-xs-5"><p>[graphique de zoom sur l'activité]</p></div>
+          <div class="col-xs-12"><p>Explications à propos du graphique</p></div>
         </div>
       </div>
     </div>
