@@ -37,7 +37,7 @@ var displayDate3 = d3.timeFormat("%b %y"),
     displayTime3 = d3.timeFormat("%H:%M"),
     displayValue3 = d3.format(",.0f");
 
-//--Crunching "exercise.csv"--//
+//-------------------------Crunching "exercise.csv"---------------------------//
 d3.csv("exercise.csv", function(error, data) {
   if (error) throw error;
   //--Specific parsers for this dataset--//
@@ -79,8 +79,24 @@ d3.csv("exercise.csv", function(error, data) {
     yScale = d3
     .scaleTime()
     .range([0,imgHeight3])
-    .domain([ parseTime3("03:00"), parseTime3("23:59") ]),
-    colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+    .domain([ parseTime3("03:00"), parseTime3("23:59") ]);
+
+  //==========================Function for graph4=============================//
+  // (called later in "on click")
+  function livedata_graph(){
+    // Scales definition
+    var xScale4 = d3
+      .scaleTime()
+      .range([0, imgWidth4])
+      .domain([d.start_time, d.end_time]),
+      yScale4 = d3
+      .scaleTime()
+      .range([0,imgHeight4]);
+
+  }
+  //==========================End graph4 function=============================//
+
+
   // Axis definition
   var xAxis = d3.axisBottom().scale(xScale).tickFormat(displayDate3),
       yAxis = d3.axisLeft().scale(yScale).tickFormat(displayTime3);
@@ -144,11 +160,19 @@ d3.csv("exercise.csv", function(error, data) {
 
           div.transition()
              .duration(400)
-             .style("opacity", 0); });
+             .style("opacity", 0); })
+          .on("click", function(d) {
+            d3.json("live/" + d.live_data, function(error, json_data){
+              if (error) throw error;
+              console.log(json_data);
+            })//end of d3.json...
+          })//end of "on click"
+
       })//end of exercise loop (dates["values"]...)
     })// end of nested_data.forEach
 
-    //--Crunching "EDT.csv"--//
+
+    //-------------------------Crunching "EDT.csv"----------------------------//
     d3.csv("EDT.csv", function(error, data){
       if (error) throw error;
 
@@ -185,7 +209,6 @@ d3.csv("exercise.csv", function(error, data) {
           .enter().append("rect")
           .attr("class", "bar")
           .attr("x", function(d) {
-            //console.log(d["title"].includes("Examen") || d["title"].includes("Restitution") );
             if (d["date"].getTime() <= max_date.getTime()) {
               return xScale(d["date"]);}
             })
@@ -223,6 +246,7 @@ d3.csv("exercise.csv", function(error, data) {
                 div.html("Cours<br/>" + displayTime3(d.start) + " - " + displayTime3(d.end))
                  .style("top", (yScale(d["start"]) - 18).toString() + "px")
                  .style("left", (xScale(d["date"])+10).toString() + "px") }
+
                })
           .on("mouseout", function(d) {
 
@@ -235,7 +259,6 @@ d3.csv("exercise.csv", function(error, data) {
               div.transition()
                  .duration(400)
                  .style("opacity", 0); });
-
       })
     })//end of EDT loop
 }) //end of "exercise.csv" crunching
