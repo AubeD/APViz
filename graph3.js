@@ -84,18 +84,8 @@ d3.csv("exercise.csv", function(error, data) {
   //==========================Function for graph4=============================//
   // (called later in "on click")
   function livedata_graph(){
-    // Scales definition
-    var xScale4 = d3
-      .scaleTime()
-      .range([0, imgWidth4])
-      .domain([d.start_time, d.end_time]),
-      yScale4 = d3
-      .scaleTime()
-      .range([0,imgHeight4]);
-
   }
   //==========================End graph4 function=============================//
-
 
   // Axis definition
   var xAxis = d3.axisBottom().scale(xScale).tickFormat(displayDate3),
@@ -162,9 +152,60 @@ d3.csv("exercise.csv", function(error, data) {
              .duration(400)
              .style("opacity", 0); })
           .on("click", function(d) {
+            //===============json file===============//
             d3.json("live/" + d.live_data, function(error, json_data){
               if (error) throw error;
               console.log(json_data);
+              // Scales definition
+              var xScale4 = d3
+                .scaleTime()
+                .range([0, imgWidth4])
+                .domain([d.start_time, d.end_time]),
+                yScale4 = d3
+                .scaleLinear()
+                .range([imgHeight4,0])
+                .domain([0,16])
+              var xAxis4 = d3.axisBottom().scale(xScale4).tickFormat(displayTime3),
+                  yAxis4 = d3.axisLeft().scale(yScale4);
+              // Axis creation on the SVG
+              svg4.append("g")
+                  .attr("transform", "translate("+ 0 + "," + imgHeight4 +")")
+                  .attr("class", "x axis")
+                  .call(xAxis4);
+              svg4.append("g")
+                  .attr("transform", "translate("+ 0 + "," + 0 +")")
+                  .attr("class", "y axis")
+                  .call(yAxis4);
+              svg4.append("text")
+                  .attr("transform", "rotate(-90)")
+                  .attr("y", 0 - margin4.left)
+                  .attr("x",0 - (imgHeight4 / 2))
+                  .attr("dy", "1em")
+                  .style("text-anchor", "middle")
+                  .text("Vitesse (km/h)");
+
+              // define the line
+              var valueline = d3
+                  .line()
+                  .x(function(p) { return xScale4(p.start_time); })
+                  .y(function(p) { return yScale4(p.speed * 3.6); });
+              // Add the valueline path.
+              svg4.selectAll(".line")
+                 .data([json_data]).enter()
+                 .append("path")
+                 .attr("class", "line")
+                 .attr("d", function(d){return valueline(d)})
+                 .attr("stroke", "blue")
+                 .attr("fill", "none");
+
+
+                 // svg2.selectAll(".line").data([raw2]).enter()
+                 //   .append("path")
+                 //   .attr("class", "line")
+                 //   .attr("d", function(d) {
+                 //     return line(d); })
+                 //   .attr("stroke", color(1))
+                 //   .attr("fill", "none");
             })//end of d3.json...
           })//end of "on click"
 
