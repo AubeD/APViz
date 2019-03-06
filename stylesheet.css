@@ -12,20 +12,22 @@
 .col-offset-1 {
   margin-left: 8.33%}
 
-/* Blocs temporaires */
-    [class*="col-"], footer {
+/* Blocs temporaires*/
+    /* [class*="col-"], footer {
     background-color: white;
     border: 1px solid lightgrey;
     border-radius: 6px;
     line-height: 40px;
     text-align: left;
-  }
+    background-color: inherit;
+  } */
 
 /* Corps */
 body {
   margin: 0px -15px 0px -15px;
   font-family: Dosis-Regular,Arial,sans-serif;
   font-size: 10px;
+  background-color: none;
 }
 
 .header {
@@ -33,37 +35,50 @@ body {
   padding-top: 3em;
   width:100%;
   height:16em;
-  background-color: darkred;
+  box-shadow: 0 0 30px 40px #4A001F;
+  background-color: #4A001F;
+  /* background-color: #e84353;
+  background-image: linear-gradient(45deg, #e84353 0%, #89ecda 52%, #4A001F 90%); */
   /*Text*/
-  color: white;
+  color: ghostwhite;
   text-align: center;
 }
 
 .page_title {
   font-family: Bubblegum;
   font-size: 4.5em;
-  text-shadow: -2px -1px 3px #5D1E1E;
+  text-shadow: -2px 0px 0px orangered;
+  /* text-shadow: -2px -1px 3px #5D1E1E; */
 }
 .page_subtitle {
   font-size: 2em;
-  color: salmon;
-  text-shadow: -2px -1px 3px #5D1E1E;
+  color: firebrick;
+  /* text-shadow: -2px -1px 3px #5D1E1E; */
 }
 
 .articles {
   padding-left: 6em; padding-right: 6em;
   font-size: 1.2em;
+  background-color: inherit;
 }
 
 .part {
   margin-top: 2em;
+  background-color: inherit;
 }
 
+h3 {
+  margin-bottom: 1.5em;
+  margin-top: 2.5em;
+}
 
 footer {
   font-size: 0.8em;
-  margin-top: 4em; margin-right: 0.5em;padding-bottom: 0em;
+  margin-top: 10em; margin-right: 0.5em;padding-bottom: 0em;
   text-align: right;
+  box-shadow: 0 0 30px 40px #4A001F;
+  background-color: #4A001F;
+  color: ghostwhite;
 }
 
 .day {
