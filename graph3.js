@@ -152,7 +152,7 @@ d3.csv("exercise.csv", function(error, data) {
              .duration(400)
              .style("opacity", 0); })
           .on("click", function(d) {
-            //===============json file===============//
+            //============================json file===========================//
             d3.json("live/" + d.live_data, function(error, json_data){
               if (error) throw error;
               console.log(json_data);
@@ -185,27 +185,19 @@ d3.csv("exercise.csv", function(error, data) {
                   .text("Vitesse (km/h)");
 
               // define the line
-              var valueline = d3
+              var line = d3
                   .line()
-                  .x(function(p) { return xScale4(p.start_time); })
-                  .y(function(p) { return yScale4(p.speed * 3.6); });
+                  .x(function(d) { return xScale4(d.start_time); })
+                  .y(function(d) { return yScale4(d.speed * 3.6); });
               // Add the valueline path.
               svg4.selectAll(".line")
-                 .data([json_data]).enter()
+                 .data(json_data).enter()
                  .append("path")
                  .attr("class", "line")
-                 .attr("d", function(d){return valueline(d)})
-                 .attr("stroke", "blue")
-                 .attr("fill", "none");
+                 .attr("d", function(d){ console.log(line); });
+                 // .attr("stroke", "blue")
+                 // .attr("fill", "none");
 
-
-                 // svg2.selectAll(".line").data([raw2]).enter()
-                 //   .append("path")
-                 //   .attr("class", "line")
-                 //   .attr("d", function(d) {
-                 //     return line(d); })
-                 //   .attr("stroke", color(1))
-                 //   .attr("fill", "none");
             })//end of d3.json...
           })//end of "on click"
 
