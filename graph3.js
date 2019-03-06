@@ -2,13 +2,12 @@
 var margin3 = {top: 20, right: 20, bottom: 20, left: 35},
     width3 = 700 - margin3.left - margin3.right,
     height3 = 400 - margin3.top - margin3.bottom;
-
 var imgHeight3 = height3*0.85, imgWidth3 = width3*0.8
 
-//-- Create the tooltip --//
-var div = d3.select("#graph3").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+var margin4 = {top: 20, right: 20, bottom: 20, left: 35},
+    width4 = 500 - margin4.left - margin4.right,
+    height4 = 400 - margin4.top - margin4.bottom;
+var imgHeight4 = height4*0.85, imgWidth4 = width4*0.8
 
 //-- Create the SVG --//
 var svg3 = d3.select("#graph3").append("svg")
@@ -17,12 +16,28 @@ var svg3 = d3.select("#graph3").append("svg")
   .append("g")
   .attr("transform", "translate(" + margin3.left + "," + margin3.top + ")");
 
+var svg4 = d3.select("#graph4").append("svg")
+  .attr("width", width4)
+  .attr("height", height4)
+  .append("g")
+  .attr("transform", "translate(" + margin4.left + "," + margin4.top + ")");
+
+
+//============================================================================//
+// graph3
+//============================================================================//
+
+//-- Create the tooltip --//
+var div = d3.select("#graph3").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
 //-- Parsers --//
 var displayDate3 = d3.timeFormat("%b %y"),
     displayTime3 = d3.timeFormat("%H:%M"),
     displayValue3 = d3.format(",.0f");
 
-//--Crunching "exercise.csv"--//
+//-------------------------Crunching "exercise.csv"---------------------------//
 d3.csv("exercise.csv", function(error, data) {
   if (error) throw error;
   //--Specific parsers for this dataset--//
@@ -64,8 +79,14 @@ d3.csv("exercise.csv", function(error, data) {
     yScale = d3
     .scaleTime()
     .range([0,imgHeight3])
-    .domain([ parseTime3("03:00"), parseTime3("23:59") ]),
-    colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+    .domain([ parseTime3("03:00"), parseTime3("23:59") ]);
+
+  //==========================Function for graph4=============================//
+  // (called later in "on click")
+  function livedata_graph(){
+  }
+  //==========================End graph4 function=============================//
+
   // Axis definition
   var xAxis = d3.axisBottom().scale(xScale).tickFormat(displayDate3),
       yAxis = d3.axisLeft().scale(yScale).tickFormat(displayTime3);
@@ -129,11 +150,77 @@ d3.csv("exercise.csv", function(error, data) {
 
           div.transition()
              .duration(400)
-             .style("opacity", 0); });
+             .style("opacity", 0); })
+          .on("click", function(d) {
+            d3.selectAll("#livedata_chart").remove()
+            var chart = svg4
+                .append("g")
+                .attr("id", "livedata_chart")
+    	          .attr("transform", "translate(0, 0)");
+            //============================json file===========================//
+            d3.json("live/" + d.live_data, function(error, json_data){
+              if (error) throw error;
+              // Deletion of the first element if not walking (1001)
+              if (d.exercise_type !== 1001) {
+                json_data.shift();
+              }
+              // Conversion of speed in km/h and time in the correct time zone offset
+              json_data.forEach(function(d){
+                var time0 = new Date(d.start_time),
+                    offset = time0.getTimezoneOffset()*60*1e3;
+                d.start_time = d.start_time + offset;
+                d.speed = d.speed*3.6;
+              })
+              // Scales definition
+              var xScale4 = d3
+                .scaleTime()
+                .range([0, imgWidth4])
+                .domain([d.start_time.valueOf(), d.end_time.valueOf()]),
+                yScale4 = d3
+                .scaleLinear()
+                .range([imgHeight4,0])
+                .domain([0,16])
+              var xAxis4 = d3.axisBottom().scale(xScale4).tickFormat(displayTime3),
+                  yAxis4 = d3.axisLeft().scale(yScale4);
+              // Axis creation on the SVG
+              chart.append("g")
+                  .attr("transform", "translate("+ 0 + "," + imgHeight4 +")")
+                  .attr("class", "x axis")
+                  .call(xAxis4);
+              chart.append("g")
+                  .attr("transform", "translate("+ 0 + "," + 0 +")")
+                  .attr("class", "y axis")
+                  .call(yAxis4);
+              chart.append("text")
+                  .attr("transform", "rotate(-90)")
+                  .attr("y", 0 - margin4.left)
+                  .attr("x",0 - (imgHeight4 / 2))
+                  .attr("dy", "1em")
+                  .style("text-anchor", "middle")
+                  .text("Vitesse (km/h)");
+              // define the line
+              var valueline = d3
+                  .line()
+                  .x(function(d) { return xScale4(d.start_time); })
+                  .y(function(d) {
+                    if (d.speed == NaN) { return 0; } else { return yScale4(d.speed); }; });
+              // Add the valueline path.
+              chart.selectAll(".line")
+                 .data([json_data]).enter()
+                 .append("path")
+                 .attr("class", "line")
+                 .attr("d", function(d){ return valueline(d) })
+                 .style("stroke", "blue")
+                 .attr("fill", "none");
+
+            })//end of d3.json...
+          })//end of "on click"
+
       })//end of exercise loop (dates["values"]...)
     })// end of nested_data.forEach
 
-    //--Crunching "EDT.csv"--//
+
+    //-------------------------Crunching "EDT.csv"----------------------------//
     d3.csv("EDT.csv", function(error, data){
       if (error) throw error;
 
@@ -170,7 +257,6 @@ d3.csv("exercise.csv", function(error, data) {
           .enter().append("rect")
           .attr("class", "bar")
           .attr("x", function(d) {
-            //console.log(d["title"].includes("Examen") || d["title"].includes("Restitution") );
             if (d["date"].getTime() <= max_date.getTime()) {
               return xScale(d["date"]);}
             })
@@ -208,6 +294,7 @@ d3.csv("exercise.csv", function(error, data) {
                 div.html("Cours<br/>" + displayTime3(d.start) + " - " + displayTime3(d.end))
                  .style("top", (yScale(d["start"]) - 18).toString() + "px")
                  .style("left", (xScale(d["date"])+10).toString() + "px") }
+
                })
           .on("mouseout", function(d) {
 
@@ -220,7 +307,6 @@ d3.csv("exercise.csv", function(error, data) {
               div.transition()
                  .duration(400)
                  .style("opacity", 0); });
-
       })
     })//end of EDT loop
 }) //end of "exercise.csv" crunching
