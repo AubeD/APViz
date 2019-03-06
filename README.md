@@ -19,6 +19,9 @@ Projet mené par :
  ### Utilisateurs ciblés
  Nous avons ciblé un public large non expert. En effet, il nous a semblé que la quantité de données et la taille de l'échantillon d'étudiants (en l'occurence, un seul ici) étaient trop faibles poru en tirer des données quantitatives qui puissent être utiles à des spécialistes.
  
+ ### Résultats
+ [Screenshots et analyse brève décrite dans le Gdoc "notes"]
+ 
  ## Ensembles de données
  ### Données utilisées
  Ayant à notre disposition des applications pré-enregistrées sur nos smartphones, ou des montres connectées, nous avons choisi de nous pencher sur les données qu'ils pourraient nous fournir. Toutefois, après une première analyse des mesures, nous avons opté pour les données smartphone que nous avons jugées plus fiables : en effet, une montre utilise un accéléromètre pour compter le nombre de pas et ainsi extrapoler la distance, ainsi que les calories brûlées. Deux inconvénients surgissent alors :
