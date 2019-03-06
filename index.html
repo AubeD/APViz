@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home - APViz</title>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <if lt IE 9>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	</endif>
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="stylesheet.css" rel="stylesheet"/> <!--Feuille de style-->
+  <link href="https://fonts.googleapis.com/css?family=Hind" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-fluid">
+
+    <!--Bannière-->
+    <div class="container-fluid header">
+      <header>
+        <h1 class="page_title">APViz</h1>
+        <h2 class="page_subtitle">Visualisation interactive de données d'activité physique</h2>
+      </header>
+    </div>
+
+    <!--Article-->
+    <div class="container-fluid articles">
+      <div class="part" id="intro">
+        <h3>Introduction</h3>
+        <p>Texte explicatif du projet (contexte, objectifs).</p>
+      </div>
+
+      <div class="part" id="part1">
+        <div>
+          <h3>1. Distribution annuelle et influence de la météo </h3>
+          <p>Sélectionnez la ville :</p>
+        </div>
+        <div>
+          <form>
+              <label><input type="radio" name="layout" value="toutes" checked>&nbsp;&nbsp;Toutes les villes&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <label><input type="radio" name="layout" value="grenoble">&nbsp;&nbsp;Grenoble&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <label><input type="radio" name="layout" value="londres">&nbsp;&nbsp;Londres&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <label><input type="radio" name="layout" value="lyon">&nbsp;&nbsp;Lyon&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <label><input type="radio" name="layout" value="rennes">&nbsp;&nbsp;Rennes&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </form>
+        </div>
+        <div class="row">
+          <div id="graph1" class="col-offset-1 col-xs-10 col-offset-1"></div>
+          <div class="col-xs-6"><p>Explications sur les deux graphiques</p></div>
+          <div id="graph2" class="col-xs-6"></div>
+        </div>
+      </div>
+
+      <div class="part" id="part2">
+        <h3>2. Plages horaires hebdomadaire</h3>
+        <div class="row">
+          <div id="graph3" class="col-xs-6"></div>
+          <div id="graph4" class="col-offset-1 col-xs-5"><p></p></div>
+          <div class="col-xs-12"><p>Explications à propos du graphique</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!--Pied-de-page-->
+    <div class="footer">
+      <footer>
+        <p>Website produced by Caroline Bettinger, Océane Bligand, Jeanne Auvray - 14/02/2019 - Host by GitHub</p>
+      </footer>
+    </div>
+</div>
+</body>
+</html>
+
+<!--SCRIPTS-->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="graph2.js"></script>
+<script src="graph3.js"></script>
+<script src="graph1.js"></script>

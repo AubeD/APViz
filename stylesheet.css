@@ -1,0 +1,108 @@
+/* Polices */
+@font-face {
+  font-family: 'Dosis-Regular';
+  src: url('fonts/Dosis-Regular.ttf');}
+@font-face {
+  font-family: 'Dosis-Bold';
+  src: url('fonts/Dosis-Bold.ttf');}
+@font-face {
+  font-family: 'Bubblegum';
+  src: url('fonts/BubblegumSans-Regular.ttf');}
+
+.col-offset-1 {
+  margin-left: 8.33%}
+
+/* Blocs temporaires */
+    [class*="col-"], footer {
+    background-color: white;
+    border: 1px solid lightgrey;
+    border-radius: 6px;
+    line-height: 40px;
+    text-align: left;
+  }
+
+/* Corps */
+body {
+  margin: 0px -15px 0px -15px;
+  font-family: Dosis-Regular,Arial,sans-serif;
+  font-size: 10px;
+}
+
+.header {
+  /*Container*/
+  padding-top: 3em;
+  width:100%;
+  height:16em;
+  background-color: darkred;
+  /*Text*/
+  color: white;
+  text-align: center;
+}
+
+.page_title {
+  font-family: Bubblegum;
+  font-size: 4.5em;
+  text-shadow: -2px -1px 3px #5D1E1E;
+}
+.page_subtitle {
+  font-size: 2em;
+  color: salmon;
+  text-shadow: -2px -1px 3px #5D1E1E;
+}
+
+.articles {
+  padding-left: 6em; padding-right: 6em;
+  font-size: 1.2em;
+}
+
+.part {
+  margin-top: 2em;
+}
+
+
+footer {
+  font-size: 0.8em;
+  margin-top: 4em; margin-right: 0.5em;padding-bottom: 0em;
+  text-align: right;
+}
+
+.day {
+  fill: #fff;
+  stroke: #ccc;
+}
+
+.month {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+/*SVG parameters*/
+.line {
+      fill: none;
+      stroke-width: 1.2px;
+    }
+    .axis text {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+/* Tooltips */
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 8em;
+  height: 3.5em;
+  padding: 0.5em;
+  font: 10px sans-serif;
+  background: ghostwhite;
+  border: 0px;
+  border-radius: 3px;
+  pointer-events: none;
+}
