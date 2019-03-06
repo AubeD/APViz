@@ -101,11 +101,161 @@ d3.csv("exercises.csv", function(error, csv) {
 
 });
 
-d3.select("input[value=\"toutes\"]").on("click", force_layout);
-d3.select("input[value=\"grenoble\"]").on("click", random_layout);
-d3.select("input[value=\"londres\"]").on("click", line_layout);
-d3.select("input[value=\"lyon\"]").on("click", line_cat_layout);
-d3.select("input[value=\"rennes\"]").on("click", radial_layout);
+function toutes(){d3.csv("exercises.csv", function(error, csv) {
+  if (error) throw error;
+
+    var data = d3.nest()
+    .key(function(d) { return d.end_time; })
+        .rollup(function (d) {
+            return d[0].distance;
+        })
+    .map(csv);
+
+    rect1
+        .filter(function (d) {
+            return data.has(d);
+        })
+        .style("fill", function(d) {
+              return color1(data.get(d))})
+
+}); 
+}
+function grenoble(){d3.csv("exercises.csv", function(error, csv) {
+  if (error) throw error;
+
+    var data = d3.nest()
+    .key(function(d) { return d.end_time; })
+        .rollup(function (d) {
+            return d[0].distance;
+        })
+    .map(csv);
+    if (true){
+    rect1
+        .filter(function (d) {
+            return data.has(d);
+        })
+    .style("fill", function(d) {
+        var parseDate = d3.utcParse("%Y-%m-%d")
+        var formatDate = d3.timeFormat("%Y-%m-%d")
+        var a1=formatDate(parseDate('2018-08-06'))
+        var a2=formatDate(parseDate('2018-08-16'))
+        if (d>a1 & d<a2){
+              return color1(data.get(d))}
+        var b1=formatDate(parseDate('2018-10-19'))
+        var b2=formatDate(parseDate('2018-11-06'))
+        if (d>b1 & d<b2){
+            return color1(data.get(d))}
+        var c1=formatDate(parseDate('2018-12-29'))
+        var c2=formatDate(parseDate('2019-01-07'))
+        if (d>c1 & d<c2){
+            return color1(data.get(d))}
+    })
+    }
+
+}); 
+}
+function londres(){d3.csv("exercises.csv", function(error, csv) {
+  if (error) throw error;
+
+    var data = d3.nest()
+    .key(function(d) { return d.end_time; })
+        .rollup(function (d) {
+            return d[0].distance;
+        })
+    .map(csv);
+    if (true){
+    rect1
+        .filter(function (d) {
+            return data.has(d);
+        })
+        .style("fill", function(d) {
+        var parseDate = d3.utcParse("%Y-%m-%d")
+        var formatDate = d3.timeFormat("%Y-%m-%d")
+        var a1=formatDate(parseDate('2018-02-01'))
+        var a2=formatDate(parseDate('2018-08-01'))
+        if (d>a1 & d<a2){
+              return color1(data.get(d))}
+    })
+    }
+
+}); 
+}
+function lyon(){d3.csv("exercises.csv", function(error, csv) {
+  if (error) throw error;
+
+    var data = d3.nest()
+    .key(function(d) { return d.end_time; })
+        .rollup(function (d) {
+            return d[0].distance;
+        })
+    .map(csv);
+    if (true){
+    rect1
+        .filter(function (d) {
+            return data.has(d);
+        })
+        .style("fill", function(d) {
+        var parseDate = d3.utcParse("%Y-%m-%d")
+        var formatDate = d3.timeFormat("%Y-%m-%d")
+        var a1=formatDate(parseDate('2018-08-05'))
+        var a2=formatDate(parseDate('2018-08-07'))
+        if (d>a1 & d<a2){
+              return color1(data.get(d))}
+        var b1=formatDate(parseDate('2018-08-27'))
+        var b2=formatDate(parseDate('2018-10-21'))
+        if (d>b1 & d<b2){
+            return color1(data.get(d))}
+        var c1=formatDate(parseDate('2018-11-05'))
+        var c2=formatDate(parseDate('2018-12-22'))
+        if (d>c1 & d<c2){
+            return color1(data.get(d))}
+        var d1=formatDate(parseDate('2019-01-06'))
+        if (d>d1){
+            return color1(data.get(d))}
+    })
+    }
+
+}); 
+}
+function rennes(){d3.csv("exercises.csv", function(error, csv) {
+  if (error) throw error;
+
+    var data = d3.nest()
+    .key(function(d) { return d.end_time; })
+        .rollup(function (d) {
+            return d[0].distance;
+        })
+    .map(csv);
+    if (true){
+    rect1
+        .filter(function (d) {
+            return data.has(d);
+        })
+        .style("fill", function(d) {
+        var parseDate = d3.utcParse("%Y-%m-%d")
+        var formatDate = d3.timeFormat("%Y-%m-%d")
+        var a1=formatDate(parseDate('2018-07-31'))
+        var a2=formatDate(parseDate('2018-08-06'))
+        if (d>a1 & d<a2){
+              return color1(data.get(d))}
+        var b1=formatDate(parseDate('2018-08-15'))
+        var b2=formatDate(parseDate('2018-08-26'))
+        if (d>b1 & d<b2){
+            return color1(data.get(d))}
+        var c1=formatDate(parseDate('2018-12-21'))
+        var c2=formatDate(parseDate('2018-12-30'))
+        if (d>c1 & d<c2){
+            return color1(data.get(d))}
+    })
+    }
+
+}); 
+}
+d3.select("input[value=\"toutes\"]").on("click", toutes);
+d3.select("input[value=\"grenoble\"]").on("click", grenoble);
+d3.select("input[value=\"londres\"]").on("click", londres);
+d3.select("input[value=\"lyon\"]").on("click", lyon);
+d3.select("input[value=\"rennes\"]").on("click", rennes); 
 
 function monthPath(t0) {
   var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),

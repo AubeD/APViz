@@ -182,7 +182,6 @@ d3.csv("exercise.csv", function(error, data) {
                 .domain([0,16])
               var xAxis4 = d3.axisBottom().scale(xScale4).tickFormat(displayTime3),
                   yAxis4 = d3.axisLeft().scale(yScale4);
-              console.log(xScale4(d.start_time),xScale4(d.end_time));
               // Axis creation on the SVG
               chart.append("g")
                   .attr("transform", "translate("+ 0 + "," + imgHeight4 +")")
