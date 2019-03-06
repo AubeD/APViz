@@ -126,7 +126,7 @@ d3.csv("exercise.csv", function(error, data) {
           return yScale(start_time); })
         .attr("height", function(d) {
           return yScale(end_time)-yScale(start_time); })
-        .style("fill", "blue")
+        .style("fill", "mediumblue")
         .on("mouseover", function(d) {
 
           d3.select(this)
@@ -145,7 +145,7 @@ d3.csv("exercise.csv", function(error, data) {
 
           d3.select(this)
             .transition().duration(400)
-            .style("fill", "blue")
+            .style("fill", "mediumblue")
       			.style("opacity", 1.0);
 
           div.transition()
@@ -210,7 +210,7 @@ d3.csv("exercise.csv", function(error, data) {
                  .append("path")
                  .attr("class", "line")
                  .attr("d", function(d){ return valueline(d) })
-                 .style("stroke", "blue")
+                 .style("stroke", "mediumblue")
                  .attr("fill", "none");
 
             })//end of d3.json...
@@ -271,9 +271,9 @@ d3.csv("exercise.csv", function(error, data) {
             })
           .style("fill", function(d) {
             if (d["title"].includes("Examen") || d["title"].includes("Restitution")) {
-              return "orangered";
+              return "orangered"; //e84353
             } else {
-              return "yellowgreen";
+              return "paleturquoise"; //89ecda
             }})
           .on("mouseover", function(d) {
 
@@ -281,7 +281,7 @@ d3.csv("exercise.csv", function(error, data) {
                 .transition().duration(200);
               if (d["title"].includes("Examen") || d["title"].includes("Restitution")) {
                   d3.select(this).style("fill", "firebrick"); }
-              else { d3.select(this).style("fill", "olivedrab"); }
+              else { d3.select(this).style("fill", "steelblue"); }
 
               div.transition()
                  .duration(200)
@@ -302,7 +302,7 @@ d3.csv("exercise.csv", function(error, data) {
                 .transition().duration(400);
               if (d["title"].includes("Examen") || d["title"].includes("Restitution")) {
                   d3.select(this).style("fill", "orangered"); }
-              else { d3.select(this).style("fill", "yellowgreen"); }
+              else { d3.select(this).style("fill", "paleturquoise"); }
 
               div.transition()
                  .duration(400)
