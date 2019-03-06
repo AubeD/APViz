@@ -24,16 +24,16 @@ Projet mené par :
  Ayant à notre disposition des applications pré-enregistrées sur nos smartphones, ou des montres connectées, nous avons choisi de nous pencher sur les données qu'ils pourraient nous fournir. Toutefois, après une première analyse des mesures, nous avons opté pour les données smartphone que nous avons jugées plus fiables : en effet, une montre utilise un accéléromètre pour compter le nombre de pas et ainsi extrapoler la distance, ainsi que les calories brûlées. Deux inconvénients surgissent alors :
  * Les mesures peuvent donc être aisément faussées par des mouvements de bras parasites.
  * Il n'est pas possible de distinguer la source de ces mesures (elles auraient pu être utiles si l'on pouvait différencier la marche, la danse, etc.).
+ 
  Le téléphone, quant à lui, semble se baser également sur les mesures GPS (il ne mesure automatiquement que les activités de marche où la cadence - et donc la vitesse - est suffisamment élevée pour la différencier des piétinements en intérieur). Il conserve cependant l'inconvénient de ne pas différencier les activités (sauf éventuellement la course si le rythme et la durée sont suffisants), et, contrairement à la montre, tend à mesurer et enregistrer moins d'activité qu'il n'en est réellement. On considère toutefois que le biais est moins fort et que les données sont dans ce cas plus lisibles : une activité relevée est réellement liée à la marche ou la course à pied, et pas d'interférences quelconques. 
  
  ### Sources des données 
   Données | Source | Fichier(s) obtenu(s) | Commentaire |
  --- | --- | --- | ---
  Activité physique | Application Samsung Health (Android v7.0) | 8 fichiers CSV (dont com.samsung.health.exercise.csv), 3 dossiers de fichiers JSON (dont les live data de com.samsung.health.exercise) | ...
- 
+ Emploi du temps | Intranet de l'école : [https://edt.ec-lyon.fr/](https://edt.ec-lyon.fr/) | 1 fichier au format `.ics` | Conversion nécessaire en `csv`
+ Météo | En France : [public.opendatasoft.com/](https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/export/), à Londres : [data.urban-climate.net/](http://data.urban-climate.net/southwark_plots/#) | Dans les deux cas : plusieurs fichiers `csv` | Météo de Rennes et Lyon obtenues séparément sur le site, en plusieurs fichiers à agréger lors du traitement 
 
- 
- 
  ### Nettoyage réalisé
  
  ### Comment implémenter vos propres données dans ce code
