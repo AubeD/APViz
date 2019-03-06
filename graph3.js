@@ -152,51 +152,67 @@ d3.csv("exercise.csv", function(error, data) {
              .duration(400)
              .style("opacity", 0); })
           .on("click", function(d) {
+            d3.selectAll("#livedata_chart").remove()
+            var chart = svg4
+                .append("g")
+                .attr("id", "livedata_chart")
+    	          .attr("transform", "translate(0, 0)");
             //============================json file===========================//
             d3.json("live/" + d.live_data, function(error, json_data){
               if (error) throw error;
-              console.log(json_data);
+              // Deletion of the first element if not walking (1001)
+              if (d.exercise_type !== 1001) {
+                json_data.shift();
+              }
+              // Conversion of speed in km/h and time in the correct time zone offset
+              json_data.forEach(function(d){
+                var time0 = new Date(d.start_time),
+                    offset = time0.getTimezoneOffset()*60*1e3;
+                d.start_time = d.start_time + offset;
+                d.speed = d.speed*3.6;
+              })
               // Scales definition
               var xScale4 = d3
                 .scaleTime()
                 .range([0, imgWidth4])
-                .domain([d.start_time, d.end_time]),
+                .domain([d.start_time.valueOf(), d.end_time.valueOf()]),
                 yScale4 = d3
                 .scaleLinear()
                 .range([imgHeight4,0])
                 .domain([0,16])
               var xAxis4 = d3.axisBottom().scale(xScale4).tickFormat(displayTime3),
                   yAxis4 = d3.axisLeft().scale(yScale4);
+              console.log(xScale4(d.start_time),xScale4(d.end_time));
               // Axis creation on the SVG
-              svg4.append("g")
+              chart.append("g")
                   .attr("transform", "translate("+ 0 + "," + imgHeight4 +")")
                   .attr("class", "x axis")
                   .call(xAxis4);
-              svg4.append("g")
+              chart.append("g")
                   .attr("transform", "translate("+ 0 + "," + 0 +")")
                   .attr("class", "y axis")
                   .call(yAxis4);
-              svg4.append("text")
+              chart.append("text")
                   .attr("transform", "rotate(-90)")
                   .attr("y", 0 - margin4.left)
                   .attr("x",0 - (imgHeight4 / 2))
                   .attr("dy", "1em")
                   .style("text-anchor", "middle")
                   .text("Vitesse (km/h)");
-
               // define the line
-              var line = d3
+              var valueline = d3
                   .line()
                   .x(function(d) { return xScale4(d.start_time); })
-                  .y(function(d) { return yScale4(d.speed * 3.6); });
+                  .y(function(d) {
+                    if (d.speed == NaN) { return 0; } else { return yScale4(d.speed); }; });
               // Add the valueline path.
-              svg4.selectAll(".line")
-                 .data(json_data).enter()
+              chart.selectAll(".line")
+                 .data([json_data]).enter()
                  .append("path")
                  .attr("class", "line")
-                 .attr("d", function(d){ console.log(line); });
-                 // .attr("stroke", "blue")
-                 // .attr("fill", "none");
+                 .attr("d", function(d){ return valueline(d) })
+                 .style("stroke", "blue")
+                 .attr("fill", "none");
 
             })//end of d3.json...
           })//end of "on click"
