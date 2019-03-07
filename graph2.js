@@ -28,6 +28,9 @@ var svg2 = d3.select("#graph2").append("svg")
   
   var color = d3.scaleOrdinal(d3.schemeCategory20);
 
+  var opacity_highlights = 0.3;
+  var color_highlights = color(4)
+
 
 
   // Load stocks data
@@ -43,12 +46,40 @@ var svg2 = d3.select("#graph2").append("svg")
       // Parsing time
       
       d.date = new Date(d.start_time);
-      //console.log(d.value);
-      //console.log(d.date);
     });
 
     d3.csv('https://raw.githubusercontent.com/AubeD/APViz/master/weather-lyon.csv', function(error, meteo_lyon) {
-    
+      var meteo=new Array();
+
+
+      // Dates - lieux
+      var dates_lyon = new Array([new Date("Aug 6 2018"), new Date("Aug 7 2018")], 
+        [new Date("Aug 26 2018"), new Date("Oct 20 2018")],
+        [new Date("Nov 5 2018"), new Date("Dec 21 2018")],
+        [new Date("Jan 7 2019"), new Date("Feb 01 2019")]);
+      var dates_rennes = new Array([new Date("Aug 1 2018"), new Date("Aug 5 2018")],
+        [new Date("Aug 16 2018"), new Date("Aug 25 2018")],
+        [new Date("Dec 22 2018"), new Date("Dec 29 2018")]);
+      var dates_grenoble = new Array([new Date("Aug 7 2018"), new Date("Aug 15 2018")],
+        [new Date("Oct 21 2018"), new Date("Nov 5 2018")],
+        [new Date("Dec 30 2018"), new Date("Jan 6 2019")]);
+      var date_max_londres = new Date("Jul 31 2018");
+      var dates_londres = new Array([date_min, date_max_londres]);
+      /*var date_min1_rennes = new Date("Aug 1 2018");
+      var date_max1_rennes = new Date("Aug 5 2018")
+      var date_min1_lyon = new Date("Aug 6 2018");
+      var date_max1_lyon = new Date("Aug 7 2018");
+      var date_min1_grenoble = new Date("Aug 7 2018");
+      var date_max1_grenoble = new Date("Aug 15 2018");
+      var date_min2_rennes = new Date("Aug 16 2018");
+      var date_max2_rennes = new Date("Aug 25 2018");
+      var date_min2_lyon = new Date("Aug 26 2018");
+      var date_max2_lyon = new Date("Oct 20 2018");
+      var date_min2_grenoble = new Date("Oct 21 2018");
+      var date_max2_grenoble = new Date("Nov 5 2018");
+      var date_min3_lyon = new Date("Aug 6 2018");
+      var date_max3_lyon = new Date("Dec 21 2018");*/
+
       // Data pre-processing
       meteo_lyon.forEach(function(d, i) {
         
@@ -59,20 +90,32 @@ var svg2 = d3.select("#graph2").append("svg")
         // Parsing time
         
         d.date = new Date(d.Date);
-        if(d.temp<-10){
-        }
-        //console.log(d.date);
         if(d.Temperature==0){
           meteo_lyon.splice(meteo_lyon.indexOf(d), 1);
+
         }
-
-
+        else{
+          for (i=0; i<dates_lyon.length; i++){
+            if (d.date>=dates_lyon[i][0] && d.date<=dates_lyon[i][1]){
+              meteo.push(d);
+            }
+            
+          }
+          for (i=0; i<dates_grenoble.length; i++){
+            if (d.date>=dates_grenoble[i][0] && d.date<=dates_grenoble[i][1]){
+              meteo.push(d);
+            }
+          }
+          
+        }
+        
+        
       });
 
       
-
-      //console.log(meteo_lyon);
-      var meteo_lyon = d3.nest()
+      
+      
+      var meteo = d3.nest()
         .key(function(d) {
 
           if(d.date){
@@ -85,42 +128,50 @@ var svg2 = d3.select("#graph2").append("svg")
           }
          })
         .rollup(function(v) { return d3.mean(v, function(d) { return d.temp; }); })
-        .entries(meteo_lyon);
+        .entries(meteo);
 
-      meteo_lyon = meteo_lyon.filter(function(d){
+      
+
+      meteo = meteo.filter(function(d){
         if (typeof(d.value)!="undefined"){
           return d.value;
         }
       });
 
-      var meteo = meteo_lyon;
+      function sortDate(a, b) {
+            // Dates will be cast to numbers automagically:
+            return new Date(a.key) - new Date(b.key);
+        }
 
+      meteo = meteo.sort(sortDate);
+
+      var date_min = d3.min(raw2, function(d) {return d.date;});
+      var date_max = d3.max(meteo, function(d){return new Date(d.key);});
 
       //On charge la météo de londres
       d3.csv('https://raw.githubusercontent.com/AubeD/APViz/master/weather-london.csv', function(error, meteo_londres) {
-        var date_min = d3.min(raw2, function(d) {return d.date;});
-        var date_max = d3.max(meteo_lyon, function(d){return new Date(d.key);});
-        console.log(meteo_lyon);
+        
+        
         var parseTime  = d3.timeParse("%d/%m/%Y %H:%M");
         var date_max_londres = new Date("Jul 31 2018");
         
         meteo_londres = meteo_londres.filter(function(d){
             var date = parseTime(d.Time_UTC);
             if(date){
-              if (date < date_max_londres && date > date_min){
+              if (date <= date_max_londres && date >= date_min){
 
                 return d.Time_UTC;
               }
               
             }
           })
+
+
           
           // On groupe les températures par jour (moyenne)
         var meteo_londres = d3.nest()
           .key(function(d) {
-            //console.log(d.Time_UTC);
             var date = parseTime(d.Time_UTC);
-            //console.log(date);
             if (date){
               var day = parseTime("01/01/2001 00:00");
               day.setFullYear(date.getFullYear());
@@ -133,11 +184,66 @@ var svg2 = d3.select("#graph2").append("svg")
           .rollup(function(v) { return d3.mean(v, function(d) {return +d.Tair; }); })
           .entries(meteo_londres);
 
-        console.log(meteo_lyon);
-        console.log(meteo_londres);
+        meteo_londres = meteo_londres.filter(function(d){
+          if (d.value!=0){
+            return d.value;
+          }
+        });
 
-        //meteo.forEach(function(d, i) {
-      
+        meteo_londres.forEach(function(d, i) {
+          var date = new Date(d.key);
+          if (date <= date_max_londres && date >= date_min){
+            meteo.push(d);
+          }
+        });
+
+        meteo = meteo.sort(sortDate);
+
+
+
+        d3.csv('weather-rennes.csv', function(error, meteo_rennes) {
+           // On groupe les températures par jour (moyenne)
+          var meteo_rennes = d3.nest()
+            .key(function(d) {
+              var date = new Date(d.Date);
+              if (date){
+                var day = parseTime("01/01/2001 00:00");
+                day.setFullYear(date.getFullYear());
+                day.setMonth(date.getMonth());
+                day.setDate(date.getDate());
+                return day;
+              }
+              
+             })
+            .rollup(function(v) { return d3.mean(v, function(d) {return +d.Temperature-272.15; }); })
+            .entries(meteo_rennes);
+
+
+
+        meteo_rennes.forEach(function(d, i) {
+          var date = new Date(d.key);
+
+          for (i=0; i<dates_rennes.length; i++){
+            if (date>=dates_rennes[i][0] && date<=dates_rennes[i][1]){
+              d.date = new Date(d.key);
+              meteo.push(d);
+            }
+            
+          }
+        });
+
+
+        
+        meteo = meteo.sort(sortDate);
+
+        
+
+        meteo.forEach(function(d, i) {
+          d.date = new Date(d.key);
+        });
+
+        });
+
       
       
         // Calculated on the flat dataset
@@ -148,7 +254,7 @@ var svg2 = d3.select("#graph2").append("svg")
           return d.value;
         })]);
 
-        y_temp.domain([0, d3.max(meteo_lyon, function(d) {
+        y_temp.domain([0, d3.max(meteo, function(d) {
           return d.value;
         })]);
 
@@ -156,10 +262,6 @@ var svg2 = d3.select("#graph2").append("svg")
             // Dates will be cast to numbers automagically:
             return a.date - b.date;
         }
-
-        //meteo_lyon = meteo_lyon.sort(function(a,b){return a.key-b.key;});
-
-        //console.log(meteo_lyon);
 
 
         raw2 = raw2.sort(sortByDateAscending);
@@ -180,44 +282,55 @@ var svg2 = d3.select("#graph2").append("svg")
           .y(function(d) { return y2(d.value); }) // Update Y mapping
 
         var line_temp = d3.line()//.curve(d3.curveCardinal)
-          .defined(function(d) {return (d.date < date_max && d.date > date_min);})
-          .x(function(d) { return time2(d.date); }) // Update X mapping
-          .y(function(d) { return y_temp(d.temp); }) // Update Y mapping
+          .defined(function(d) {
+            date=new Date(d.key); 
+            return (date < date_max && date > date_min);
+          })
+          .x(function(d) { return time2(new Date(d.key)); }) // Update X mapping
+          .y(function(d) { return y_temp(d.value); }) // Update Y mapping
 
 
-        svg2.selectAll("#line_dist").data([raw2]).enter()
+        
+
+
+          svg2.selectAll("#line_temp").data([meteo]).enter()
           .append("path")
-          .attr("id", "line_dist")
+          .attr("id", "line_temp")
           .attr("class", "line")
-          .attr("d", function(d) { 
-            //console.log(line(d)); 
-            return line(d); })  
-          .attr("stroke", color(1))
+          .attr("d", function(d) {return line_temp(d); })  
+          .attr("stroke", color(2))
           .attr("fill", "none");
 
         // Nuage de point pour température
 
-        svg2.selectAll(".circle").data(meteo_lyon).enter()
+        svg2.selectAll(".circle").data(meteo).enter()
         .append("circle")
         .attr("class", "circle")
-        .attr("r", 1)
+        .attr("r", 2)
         .attr("cx", function(d) { 
           
            
           var day = new Date(d.key);
           console.log(time2(date_max));
           return time2(day); })  
-        .attr("cy", function(d) { 
-          //console.log(d.date); 
-          return y_temp(d.value); })
+        .attr("cy", function(d) {return y_temp(d.value); })
         .attr("stroke", function(d){
           var day = new Date(d.key);
           if (day<date_min){
             return "none";
           }
-          return color(0);
+          return color(3);
         })
-        .attr("fill", "none");
+        .attr("fill", color(3));
+
+        svg2.selectAll("#line_dist").data([raw2]).enter()
+          .append("path")
+          .attr("id", "line_dist")
+          .attr("class", "line")
+          .attr("d", function(d) { 
+            return line(d); })  
+          .attr("stroke", color(1))
+          .attr("fill", "none");
 
         svg2.append('g')
           .attr("id", "Axe_x")
@@ -238,159 +351,92 @@ var svg2 = d3.select("#graph2").append("svg")
       });
 
         
-
         
 
-
-      
-      
-
-      
-
-      
-
-
-
-      
-      
-      
-      
-      
-      
-
-      
-
-        //Line pour température
-
-        /*svg2.selectAll(".line_temp").data([meteo_lyon]).enter()
-        .append("path")
-        .attr("class", "line_temp")
-        .attr("d", function(d) { 
-          //console.log(line(d)); 
-          return line_temp(d); })  
-        .attr("stroke", color(0))
-        .attr("fill", "none");*/
-
-
-        
-
-      /*function layout_londres(){
-        // On définit la période spéciale
-        var date_max = new Date("Jul 31 2018");
-        //console.log(date_max);
-
-        time2.domain([date_min, date_max]);
-        var line_dist = d3.line()//.curve(d3.curveCardinal)
-        .defined(function(d) {return d.date < date_max && d.date > date_min;})
-        .x(function(d) { return time2(d.date); }) // Update X mapping
-        .y(function(d) { return y2(d.value); }) // Update Y mapping
-
-        // On retrace la ligne
-        svg2.selectAll("#line_dist").data([raw2])
-        .attr("d", function(d) { 
-          //console.log(line(d)); 
-          return line_dist(d); })  
-        .attr("stroke", color(1))
-        .attr("fill", "none");
-
-        
-
-        var displayDate2 = d3.timeFormat("%d %b %y");
-
-        var xAxis = d3.axisBottom()
-        .scale(time2)
-        .tickFormat(displayDate2);
-
-        svg2.select("#Axe_x")
-        .attr('transform', 'translate(0,' + imgHeight2 + ')')
-        .attr('class', 'x axis')
-        .call(xAxis);
-
-        //On charge la météo de londres
-        d3.csv('https://raw.githubusercontent.com/AubeD/APViz/master/weather-london.csv', function(error, meteo_londres) {
-          console.log(meteo_londres);
-          //On enlève les headers ou valeurs mal remplies
-          var parseTime  = d3.timeParse("%d/%m/%Y %H:%M");
-
+        function layout_grenoble(){
+          svg2.selectAll("rect").remove();
+          for (i=0;i<dates_grenoble.length;i++){
+            svg2.append("rect")
+          .attr("width", function(){
+            if (dates_grenoble[i][1]<date_max){
+              return time2(dates_grenoble[i][1])-time2(dates_grenoble[i][0]);
+            }
+            else{
+              return time2(date_max)-time2(dates_grenoble[i][0]);
+            }
+            })
+          .attr("height", imgHeight2)
+          .attr("x", time2(dates_grenoble[i][0]))
+          .attr("y", 0)
+          .attr("fill", color_highlights)
+          .style("opacity", opacity_highlights);
+          }
           
-        meteo_londres = meteo_londres.filter(function(d){
-            var date = parseTime(d.Time_UTC);
-            if(date){
-              if (date < date_max && date > date_min){
+        }
 
-                return d.Time_UTC;
-              }
-              
-            }
-          })
+        function layout_londres(){
+          svg2.selectAll("rect").remove();
+          for (i=0;i<dates_londres.length;i++){
+            svg2.append("rect")
+            .attr("width", time2(date_max_londres)-time2(date_min))
+            .attr("height", imgHeight2)
+            .attr("x", time2(date_min))
+            .attr("y", 0)
+            .attr("fill", color_highlights)
+            .style("opacity", opacity_highlights);
+          }
           
-          // On groupe les températures par jour (moyenne)
-        var meteo_londres = d3.nest()
-          .key(function(d) {
-            //console.log(d.Time_UTC);
-            var date = parseTime(d.Time_UTC);
-            //console.log(date);
-            if (date){
-              var day = parseTime("01/01/2001 00:00");
-              day.setFullYear(date.getFullYear());
-              day.setMonth(date.getMonth());
-              day.setDate(date.getDate());
-              return day;
+        }
+
+        function layout_lyon(){
+          svg2.selectAll("rect").remove();
+          for (i=0;i<dates_lyon.length;i++){
+            svg2.append("rect")
+            .attr("width", function(){
+            if (dates_lyon[i][1]<date_max){
+              return time2(dates_lyon[i][1])-time2(dates_lyon[i][0]);
             }
-            
-           })
-          .rollup(function(v) { return d3.mean(v, function(d) {return +d.Tair; }); })
-          .entries(meteo_londres);
-
-
-        meteo_londres.forEach(function(d){
-
-        });
-          console.log(meteo_londres);
-
-          svg2.selectAll(".circle").remove();
-          svg2.selectAll(".circle").data(meteo_londres).enter()
-          .append("circle")
-          .attr("class", "circle")
-          .attr("r", 1)
-          .attr("cx", function(d) { 
-            
-             
-            var day = new Date(d.key);
-            //console.log(time2(date_max));
-            return time2(day); })  
-          .attr("cy", function(d) { 
-            //console.log(d.date); 
-            return y_temp(d.value); })
-          .attr("stroke", function(d){
-            var day = new Date(d.key);
-            if (day<date_min){
-              return "none";
+            else{
+              return time2(date_max)-time2(dates_lyon[i][0]);
             }
-            return color(0);
-          })
-          .attr("fill", "none");
+            })
+            .attr("height", imgHeight2)
+            .attr("x", time2(dates_lyon[i][0]))
+            .attr("y", 0)
+            .attr("fill", color_highlights)
+            .style("opacity", opacity_highlights);
+          }
+          
+        }
 
+        function layout_rennes(){
+          svg2.selectAll("rect").remove();
+          for (i=0;i<dates_rennes.length;i++){
+            svg2.append("rect")
+            .attr("width", time2(dates_rennes[i][1])-time2(dates_rennes[i][0]))
+            .attr("height", imgHeight2)
+            .attr("x", time2(dates_rennes[i][0]))
+            .attr("y", 0)
+            .attr("fill", color_highlights)
+            .style("opacity", opacity_highlights);
+          }
+          
+        }
 
-        });
+        function layout_all(){
+          svg2.selectAll("rect").remove();
+        }
 
-        
+        d3.select("input[value=\"grenoble\"]").on("click", layout_grenoble);
+        d3.select("input[value=\"londres\"]").on("click", layout_londres);
+        d3.select("input[value=\"lyon\"]").on("click", layout_lyon);
+        d3.select("input[value=\"rennes\"]").on("click", layout_rennes);
 
-      }
+        d3.select("input[value=\"toutes\"]").on("click", layout_all);
 
-      function layout_londres(){
-        
-      }
 
       
-      
 
-
-      d3.select("input[value=\"toutes\"]").on("click", layout_all);
-      //d3.select("input[value=\"grenoble\"]").on("click", random_layout);
-      d3.select("input[value=\"londres\"]").on("click", layout_londres);
-      //d3.select("input[value=\"lyon\"]").on("click", line_cat_layout);
-      //d3.select("input[value=\"rennes\"]").on("click", radial_layout);*/
 
     });
 
