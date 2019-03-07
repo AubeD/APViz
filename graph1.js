@@ -103,7 +103,7 @@ d3.csv("exercises.csv", function(error, csv) {
 
 
 
-var margin2 = {top: 20, right: 20, bottom: 20, left: 35},
+var margin2 = {top: 20, right: 20, bottom: 20, left: 100},
     width2 = 1200 - margin2.left - margin2.right,
     height2 = 300 - margin2.top - margin2.bottom;
 
@@ -689,6 +689,30 @@ function monthPath(t0) {
           .attr('transform', 'translate('+imgWidth2+',' + 0 + ')')
           .attr('class', 'y axis')
           .call(yAxis_temp);
+
+        svg2.append('text')
+        .attr("x", -70)
+        .attr("y", -10)
+        .text("distance parcourue (m)");
+
+        svg2.append('text')
+        .attr("x", imgWidth2-20)
+        .attr("y", -10)
+        .text("température (°C)");
+
+        svg2.append("rect")
+        .attr("x", imgWidth2-20)
+        .attr("y", -10+2)
+        .attr("width", 80)
+        .attr("height", 3)
+        .attr("fill", color(2));
+
+        svg2.append("rect")
+        .attr("x", -70)
+        .attr("y", -10+2)
+        .attr("width", 100)
+        .attr("height", 3)
+        .attr("fill", color(1));
 
       });
 
