@@ -17,7 +17,7 @@ Projet mené par :
  Nous avons donc souhaité confronter ces données à l'emploi du temps, et ajouter un élément de comparaison supplémentaire : la météo. Peut-on observer une corrélation entre ces différentes données ?
  
  ### Utilisateurs ciblés
- Nous avons ciblé un public large non expert. En effet, il nous a semblé que la quantité de données et la taille de l'échantillon d'étudiants (en l'occurence, un seul ici) étaient trop faibles poru en tirer des données quantitatives qui puissent être utiles à des spécialistes.
+ Nous avons ciblé un public large non expert. En effet, il nous a semblé que la quantité de données et la taille de l'échantillon d'étudiants (en l'occurence, un seul ici) étaient trop faibles pour en tirer des données quantitatives qui puissent être utiles à des spécialistes.
  
  ### Résultats
  [Screenshots et analyse brève décrite dans le Gdoc "notes"]
