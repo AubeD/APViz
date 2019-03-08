@@ -51,7 +51,9 @@ Météo|...|Sources diverses, pas les mêmes grandeurs mesurées et pas les mêm
  Les données brutes ont dû être nettoyées, notamment les données fournies par l'application Samsung car beaucoup de données étaient inutiles. Il a fallu principalement garder les jours et la distance parcourue à pied. Les calories dépensées par exemple étaient inutiles car proportionnelles à la distance parcourue.
  
  ### Comment implémenter vos propres données dans ce code
- Pour implémenter ses propres données il faut reprendre les fichiers du Github et changer seulement les fichiers csv, en faisant attention à respecter les intitulés des colonnes. Ces fichiers contiennent les informations liées aux distances parcourues, à la météo et à l'emploi du temps.
+ Pour implémenter ses propres données il faut reprendre les fichiers du Github et changer les fichiers csv, en faisant attention à respecter les intitulés des colonnes. Ces fichiers contiennent les informations liées aux distances parcourues, à la météo et à l'emploi du temps, en prenant soin d'ajouter la météo correspondant les villes visitées.
+ Il faut également définir les dates de visites des villes visitées dans le fichier graph1.js (dates_lyon, dates_grenoble) sous le même format que celui utilisé soit un Array composé de liste [date d'arrivée, date de départ]. Chaque date sous format Date javascript.
+ Si d'autres villes que celles présentes ici sont requises, il faudra ajouter la ville aux radio boutons du choix de ville puis ajouter une fonction liée à cette ville en utilisant le même format que pour les villes actuelles. Il faudra également charger ces nouvelles données puis ajouter les données pertinentes (aux bonnes dates) à la variable meteo dans graph1.js.
 
 ## Enjeux
 ### Principaux risques liés
