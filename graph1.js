@@ -103,7 +103,7 @@ d3.csv("exercises.csv", function(error, csv) {
 
 
 
-var margin2 = {top: 20, right: 20, bottom: 20, left: 100},
+var margin2 = {top: 20, right: 20, bottom: 20, left: 40},
     width2 = 1200 - margin2.left - margin2.right,
     height2 = 300 - margin2.top - margin2.bottom;
 
@@ -641,6 +641,7 @@ function monthPath(t0) {
           var formatTime = d3.timeFormat("%e %B");
         
 
+          
 
           svg2.selectAll("#line_temp").data([meteo]).enter()
           .append("path")
@@ -650,7 +651,7 @@ function monthPath(t0) {
           .attr("stroke", color(2))
           .attr("fill", "none");
 
-
+        var color_pt_dist = color(1);
 
         svg2.selectAll("#line_dist").data([raw2]).enter()
           .append("path")
@@ -673,7 +674,7 @@ function monthPath(t0) {
             return "none";
           }
           else{
-            return color(1);
+            return color_pt_dist;
           }
           })
         .on("mouseover", function(d) {     
@@ -741,7 +742,7 @@ function monthPath(t0) {
           .call(yAxis_temp);
 
         svg2.append('text')
-        .attr("x", -70)
+        .attr("x", -40)
         .attr("y", -10)
         .text("distance parcourue (m)");
 
@@ -758,7 +759,7 @@ function monthPath(t0) {
         .attr("fill", color(2));
 
         svg2.append("rect")
-        .attr("x", -70)
+        .attr("x", -40)
         .attr("y", -10+2)
         .attr("width", 100)
         .attr("height", 3)
