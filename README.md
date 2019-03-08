@@ -19,6 +19,16 @@ Projet mené par :
  ### Utilisateurs ciblés
  Nous avons ciblé un public large non expert. En effet, il nous a semblé que la quantité de données et la taille de l'échantillon d'étudiants (en l'occurence, un seul ici) étaient trop faibles pour en tirer des données quantitatives qui puissent être utiles à des spécialistes.
  
+### Aperçu du projet
+Quelques captures d'écran des 3 graphiques produits.
+
+![Calendrier et distances journalières](https://github.com/AubeD/APViz/blob/master/Screenshots/screen1.png)
+![Calendrier et distances journalières](https://github.com/AubeD/APViz/blob/master/Screenshots/screen2.png)
+Tooltips au passage de curseur et radiobuttons pour sélectionner la ville, les deux graphiques étant reliés.
+
+![Calendrier et distances journalières](https://github.com/AubeD/APViz/blob/master/Screenshots/screen3.png)
+Tooltips au passage de curseur, et affichage de la vitesse au cours du temps en cliquant sur une plage d'activité physique.
+ 
  ### Résultats
  Les résultats montrent une forte corrélation entre la distance marchée et le lieu comme il était attendu. A Londres les distances sont élevées car l'étudiante a peu utilisé les transports en commun. A Rennes et à Lyon, au contraire la voiture ou les transports en commun ont été priviligiés car les distances étaient trop grandes pour être effectuées à pied.
  En revanche, il y a une faible corrélation entre la météo et la quantité de marche, sauf en hiver où les pics d'activité correspondent bien aux pics de température. De même que l'emploi du temps influe peu sur l'activité physique. On observe seulement qu'il n'y a pas d'activité pendant les cours et les pics d'activités dus aux randonnées notamment se situent hors de ces créneaux. Les examens n'influent pas non plus visiblement sur l'activité.
