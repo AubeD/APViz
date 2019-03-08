@@ -15,7 +15,21 @@
 </head>
 
 <body>
+  <div class="sidenav">
+    <p>Sélectionnez la ville :</p>
+    <div>
+      <form>
+          <label><input type="radio" name="layout" value="toutes" checked>&nbsp;&nbsp;Toutes les villes&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <label><input type="radio" name="layout" value="grenoble">&nbsp;&nbsp;Grenoble&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <label><input type="radio" name="layout" value="londres">&nbsp;&nbsp;Londres&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <label><input type="radio" name="layout" value="lyon">&nbsp;&nbsp;Lyon&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <label><input type="radio" name="layout" value="rennes">&nbsp;&nbsp;Rennes&nbsp;&nbsp;&nbsp;&nbsp;</label>
+      </form>
+    </div>
+  </div>
   <div class="container-fluid">
+
+  <div id="main">
 
     <!--Bannière-->
     <div class="container-fluid header">
@@ -29,27 +43,20 @@
     <div class="container-fluid articles">
       <div class="part" id="intro">
         <h3>Introduction</h3>
-        <p>Texte explicatif du projet (contexte, objectifs).</p>
+        <p> Nous cherchons à visualiser de quelle manière le rythme de vie d'un étudiant peut impacter son activité physique quotidienne, en particulier la marche. La météo, l'emploi du temps et la localisation sont les facteurs qui ont été pris en compte.</p>
       </div>
+
+
 
       <div class="part" id="part1">
         <div>
           <h3>1. Distribution annuelle et influence de la météo </h3>
+		<p>Le calendrier permet de visualiser la distance marchée pour chaque jour. Passez le curseur sur une case du calendrier pour obtenir la distance parcourue. Il est possible de sélectionner une ville, ce qui permet de n'afficher que les valeurs des jours où l'étudiant(e) se trouvait dans cette ville. </br> Le graphique présente la distance parcourue et la température extérieure en fonction du temps. La sélection d'une ville met en valeur les données correspondant à cette ville.</p>
         </div>
         <div class="row">
-          <div id="graph1" class="col-offset-1 col-xs-10 col-offset-1"></div>
-          <div class="col-xs-6">
-            <p>Sélectionnez la ville :</p>
-            <div>
-              <form>
-                  <label><input type="radio" name="layout" value="toutes" checked>&nbsp;&nbsp;Toutes les villes&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                  <label><input type="radio" name="layout" value="grenoble">&nbsp;&nbsp;Grenoble&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                  <label><input type="radio" name="layout" value="londres">&nbsp;&nbsp;Londres&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                  <label><input type="radio" name="layout" value="lyon">&nbsp;&nbsp;Lyon&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                  <label><input type="radio" name="layout" value="rennes">&nbsp;&nbsp;Rennes&nbsp;&nbsp;&nbsp;&nbsp;</label>
-              </form>
-            </div>
-          </div>
+          <div id="graph1" class="col-xs-5"></div>
+        </div>
+        <div class="row">
           <div id="graph2" class="col-xs-5"></div>
         </div>
       </div>
@@ -57,9 +64,10 @@
       <div class="part" id="part2">
         <h3>2. Plages horaires hebdomadaire</h3>
         <div class="row">
+		<div class="col-xs-12"><p>Ce graphique montre l'activité (marche, cours ou examen) en fonction de l'heure de la journée. Placez le curseur sur un trait pour obtenir les données correspondantes.</p></div>
           <div id="graph3" class="col-xs-6"></div>
           <div id="graph4" class="col-offset-1 col-xs-5"></div>
-          <div class="col-xs-12"><p>Explications à propos du graphique</p></div>
+          
         </div>
       </div>
     </div>
@@ -71,11 +79,11 @@
       </footer>
     </div>
 </div>
+</div>
 </body>
 </html>
 
 <!--SCRIPTS-->
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="graph2.js"></script>
 <script src="graph3.js"></script>
 <script src="graph1.js"></script>

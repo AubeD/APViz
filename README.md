@@ -17,10 +17,11 @@ Projet mené par :
  Nous avons donc souhaité confronter ces données à l'emploi du temps, et ajouter un élément de comparaison supplémentaire : la météo. Peut-on observer une corrélation entre ces différentes données ?
  
  ### Utilisateurs ciblés
- Nous avons ciblé un public large non expert. En effet, il nous a semblé que la quantité de données et la taille de l'échantillon d'étudiants (en l'occurence, un seul ici) étaient trop faibles poru en tirer des données quantitatives qui puissent être utiles à des spécialistes.
+ Nous avons ciblé un public large non expert. En effet, il nous a semblé que la quantité de données et la taille de l'échantillon d'étudiants (en l'occurence, un seul ici) étaient trop faibles pour en tirer des données quantitatives qui puissent être utiles à des spécialistes.
  
  ### Résultats
- [Screenshots et analyse brève décrite dans le Gdoc "notes"]
+ Les résultats montrent une forte corrélation entre la distance marchée et le lieu comme il était attendu. A Londres les distances sont élevées car l'étudiante a peu utilisé les transports en commun. A Rennes et à Lyon, au contraire la voiture ou les transports en commun ont été priviligiés car les distances étaient trop grandes pour être effectuées à pied.
+ En revanche, il y a une faible corrélation entre la météo et la quantité de marche, sauf en hiver où les pics d'activité correspondent bien aux pics de température. De même que l'emploi du temps influe peu sur l'activité physique. On observe seulement qu'il n'y a pas d'activité pendant les cours et les pics d'activités dus aux randonnées notamment se situent hors de ces créneaux. Les examens n'influent pas non plus visiblement sur l'activité.
  
  ## Ensembles de données
  ### Données utilisées
@@ -36,10 +37,23 @@ Projet mené par :
  Activité physique | Application Samsung Health (Android v7.0) | 8 fichiers CSV (dont com.samsung.health.exercise.csv), 3 dossiers de fichiers JSON (dont les live data de com.samsung.health.exercise) | ...
  Emploi du temps | Intranet de l'école : [https://edt.ec-lyon.fr/](https://edt.ec-lyon.fr/) | 1 fichier au format `.ics` | Conversion nécessaire en `csv`
  Météo | En France : [public.opendatasoft.com/](https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/export/), à Londres : [data.urban-climate.net/](http://data.urban-climate.net/southwark_plots/#) | Dans les deux cas : plusieurs fichiers `csv` | Météo de Rennes et Lyon obtenues séparément sur le site, en plusieurs fichiers à agréger lors du traitement 
+ 
+ ### Qualité des données
+ 
+ Données|+|-|
+ ---|---|---
+Activité physique|données recueillies sur une période assez longue|Sensibilité des mesures : pas toujours suffisante, ne décrit pas entièrement les phases de marche (certaines “oubliées”) / Autres sports non mesurés et donc non visibles / Calories proportionnelles à la distance, donc pas de valeur ajoutée de ce côté
+Emploi du temps|examens aussi disponibles|Nombreux créneaux manquant à partir de janvier / Parfois, certains créneaux ont été légèrement modifiés en pratique
+Météo|...|Sources diverses, pas les mêmes grandeurs mesurées et pas les mêmes unités / Valeurs manquantes pour certaines plages de temps / Pas pour chaque ville (approximation météo Lyon = météo Grenoble)
+
 
  ### Nettoyage réalisé
+ Les données brutes ont dû être nettoyées, notamment les données fournies par l'application Samsung car beaucoup de données étaient inutiles. Il a fallu principalement garder les jours et la distance parcourue à pied. Les calories dépensées par exemple étaient inutiles car proportionnelles à la distance parcourue.
  
  ### Comment implémenter vos propres données dans ce code
+ Pour implémenter ses propres données il faut reprendre les fichiers du Github et changer les fichiers csv, en faisant attention à respecter les intitulés des colonnes. Ces fichiers contiennent les informations liées aux distances parcourues, à la météo et à l'emploi du temps, en prenant soin d'ajouter la météo correspondant les villes visitées.
+ Il faut également définir les dates de visites des villes visitées dans le fichier graph1.js (dates_lyon, dates_grenoble) sous le même format que celui utilisé soit un Array composé de listes [date d'arrivée, date de départ]. Chaque date sous format Date javascript.
+ Si d'autres villes que celles présentes ici sont requises, il faudra ajouter la ville aux radio boutons du choix de ville puis ajouter une fonction liée à cette ville en utilisant le même format que pour les villes actuelles. Il faudra également charger ces nouvelles données puis ajouter les données pertinentes (aux bonnes dates) à la variable meteo dans graph1.js.
 
 ## Enjeux
 ### Principaux risques liés
