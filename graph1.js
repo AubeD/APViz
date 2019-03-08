@@ -315,30 +315,32 @@ function monthPath(t0) {
 
   function layout_grenoble(){
     grenoble()
-          svg2.selectAll("rect").remove();
+          svg2.selectAll(".highlights").remove();
           for (i=0;i<dates_grenoble.length;i++){
             svg2.append("rect")
-          .attr("width", function(){
-            if (dates_grenoble[i][1]<date_max){
-              return time2(dates_grenoble[i][1])-time2(dates_grenoble[i][0]);
-            }
-            else{
-              return time2(date_max)-time2(dates_grenoble[i][0]);
-            }
-            })
-          .attr("height", imgHeight2)
-          .attr("x", time2(dates_grenoble[i][0]))
-          .attr("y", 0)
-          .attr("fill", color_highlights)
-          .style("opacity", opacity_highlights);
+            .attr("class", "highlights")
+            .attr("width", function(){
+                if (dates_grenoble[i][1]<date_max){
+                  return time2(dates_grenoble[i][1])-time2(dates_grenoble[i][0]);
+                }
+                else{
+                  return time2(date_max)-time2(dates_grenoble[i][0]);
+                }
+                })
+              .attr("height", imgHeight2)
+              .attr("x", time2(dates_grenoble[i][0]))
+              .attr("y", 0)
+              .attr("fill", color_highlights)
+              .style("opacity", opacity_highlights);
           }
           
         }
 
         function layout_londres(){
             londres()
-            svg2.selectAll("rect").remove();
+            svg2.selectAll(".highlights").remove();
             svg2.append("rect")
+            .attr("class", "highlights")
             .attr("width", time2(date_max_londres)-time2(date_min))
             .attr("height", imgHeight2)
             .attr("x", time2(date_min))
@@ -351,9 +353,10 @@ function monthPath(t0) {
 
         function layout_lyon(){
             lyon()
-          svg2.selectAll("rect").remove();
+          svg2.selectAll(".highlights").remove();
           for (i=0;i<dates_lyon.length;i++){
             svg2.append("rect")
+            .attr("class", "highlights")
             .attr("width", function(){
             if (dates_lyon[i][1]<date_max){
               return time2(dates_lyon[i][1])-time2(dates_lyon[i][0]);
@@ -373,9 +376,10 @@ function monthPath(t0) {
 
         function layout_rennes(){
             rennes()
-          svg2.selectAll("rect").remove();
+          svg2.selectAll(".highlights").remove();
           for (i=0;i<dates_rennes.length;i++){
             svg2.append("rect")
+            .attr("class", "highlights")
             .attr("width", time2(dates_rennes[i][1])-time2(dates_rennes[i][0]))
             .attr("height", imgHeight2)
             .attr("x", time2(dates_rennes[i][0]))
@@ -388,7 +392,7 @@ function monthPath(t0) {
 
         function layout_all(){
             toutes()
-          svg2.selectAll("rect").remove();
+            svg2.selectAll(".highlights").remove();
         }
 
         d3.select("input[value=\"grenoble\"]").on("click", layout_grenoble);
@@ -631,7 +635,10 @@ function monthPath(t0) {
           .x(function(d) { return time2(new Date(d.key)); }) // Update X mapping
           .y(function(d) { return y_temp(d.value); }) // Update Y mapping
 
-
+          var div2 = d3.select("#graph2").append("div") 
+            .attr("class", "tooltip")               
+            .style("opacity", 0);
+          var formatTime = d3.timeFormat("%e %B");
         
 
 
@@ -643,27 +650,7 @@ function monthPath(t0) {
           .attr("stroke", color(2))
           .attr("fill", "none");
 
-        // Nuage de point pour température
 
-        svg2.selectAll(".circle").data(meteo).enter()
-        .append("circle")
-        .attr("class", "circle")
-        .attr("r", 2)
-        .attr("cx", function(d) { 
-          
-           
-          var day = new Date(d.key);
-          console.log(time2(date_max));
-          return time2(day); })  
-        .attr("cy", function(d) {return y_temp(d.value); })
-        .attr("stroke", function(d){
-          var day = new Date(d.key);
-          if (day<date_min){
-            return "none";
-          }
-          return color(3);
-        })
-        .attr("fill", color(3));
 
         svg2.selectAll("#line_dist").data([raw2]).enter()
           .append("path")
@@ -671,8 +658,71 @@ function monthPath(t0) {
           .attr("class", "line")
           .attr("d", function(d) { 
             return line(d); })  
-          .attr("stroke", color(1))
+          .attr("stroke", color(3))
           .attr("fill", "none");
+
+        svg2.selectAll(".circle_dist").data(raw2).enter()
+        .append("circle")
+        .attr("class", "circle_dist")
+        .attr("r", 2)
+        .attr("cx", function(d) { 
+          return time2(d.date); })  
+        .attr("cy", function(d) {return y2(d.value); })
+        .attr("fill", function(d){
+          if (time2(d.date)>imgWidth2){
+            return "none";
+          }
+          else{
+            return color(1);
+          }
+          })
+        .on("mouseover", function(d) {     
+            console.log("mouseover") ;
+            div2.transition()        
+                .duration(200)      
+                .style("opacity", .9);
+            var x = d3.event.pageX - document.getElementById("graph2").getBoundingClientRect().x + 10; 
+            var y = d3.event.pageY - document.getElementById("graph2").getBoundingClientRect().y + 10;
+            console.log(y);
+            div2.html(formatTime(d.date) + "<br/>"  + d.value + "m")  
+                .style("left", x + "px")     
+                .style("top", y2(d.value) + "px");    
+            })                  
+        .on("mouseout", function(d) {       
+            div2.transition()        
+                .duration(500)      
+                .style("opacity", 0);   
+        });
+
+        svg2.selectAll(".circle").data(meteo).enter()
+        .append("circle")
+        .attr("class", "circle")
+        .attr("r", 2)
+        .attr("cx", function(d) { 
+          var day = new Date(d.key);
+          return time2(day); })  
+        .attr("cy", function(d) {return y_temp(d.value); })
+        .attr("fill", color(4))
+        .on("mouseover", function(d) {     
+            console.log("mouseover") ;
+            div2.transition()        
+                .duration(200)      
+                .style("opacity", .9);
+            var x = d3.event.pageX - document.getElementById("graph2").getBoundingClientRect().x + 10; 
+            var y = d3.event.pageY - document.getElementById("graph2").getBoundingClientRect().y + 10;
+            div2.html(formatTime(new Date(d.key)) + "<br/>"  + Math.round(d.value * 10) / 10 + "°C")  
+                .style("left", x + "px")     
+                .style("top", y_temp(d.value) + "px");    
+            })                  
+        .on("mouseout", function(d) {       
+            div2.transition()        
+                .duration(500)      
+                .style("opacity", 0);   
+        });
+
+
+
+        
 
         svg2.append('g')
           .attr("id", "Axe_x")
