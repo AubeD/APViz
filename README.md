@@ -21,7 +21,7 @@ Projet mené par :
  
  ### Résultats
  Les résultats montrent une forte corrélation entre la distance marchée et le lieu comme il était attendu. A Londres les distances sont élevées car l'étudiante a peu utilisé les transports en commun. A Rennes et à Lyon, au contraire la voiture ou les transports en commun ont été priviligiés car les distances étaient trop grandes pour être effectuées à pied.
- En revanche, il y a une faible corrélation entre la météo et la quantité de marche. De même que l'emploi du temps influe peu sur l'activité physique. On observe seulement qu'il n'y a pas d'activité pendant les cours et les pics d'activités dus aux randonnées notamment se situent hors de ces créneaux. Les examens n'influent pas non plus visiblement sur l'activité.
+ En revanche, il y a une faible corrélation entre la météo et la quantité de marche, sauf en hiver où les pics d'activité correspondent bien aux pics de température. De même que l'emploi du temps influe peu sur l'activité physique. On observe seulement qu'il n'y a pas d'activité pendant les cours et les pics d'activités dus aux randonnées notamment se situent hors de ces créneaux. Les examens n'influent pas non plus visiblement sur l'activité.
  
  ## Ensembles de données
  ### Données utilisées
