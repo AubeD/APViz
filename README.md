@@ -72,3 +72,7 @@ Les données liées à l’activité physique sont évidemment des données trè
 ### Enjeux éthiques
 Les enjeux éthiques sont donc de protéger les données de santé générées par des applications sur portable (Samsung Health) ou des montres connectées. Ces données peuvent être très utile pour l’utilisateur et l’aider à améliorer ses habitudes sportives cependant elles peuvent être utilisées à mauvais escient.
 Dans le cadre de ce projet, les données seront fournies par une personne consentante, seront utilisées pour une audience relativement restreinte et nous ferons attention à ne pas dévoiler de détails sensibles si nous en rencontrerons, comme un problème de santé particulier. 
+
+
+### Crédits
+Mike Bostock pour le template du calendrier.
