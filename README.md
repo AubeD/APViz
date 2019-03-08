@@ -3,6 +3,8 @@
 
 *Site Web : [aubed.github.io/APViz/](https://aubed.github.io/APViz/index.html)*
 
+_Remarque : Il est conseillé d'ouvrir le site sous Firefox ou Chrome (des problèmes d'affichage du 2e graphique peuvent être rencontrés sous Safari)._
+
 Projet mené par :
  * Caroline Bettinger
  * Océane Bligand
